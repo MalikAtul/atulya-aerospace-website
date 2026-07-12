@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Palette ─────────────────────────────────────────── */
+  --color-void: #06070a;
+  --color-surface: #0b0d12;
+  --color-raised: #10141b;
+  --color-panel: #0d1017;
+
+  --color-line: rgba(237, 239, 242, 0.08);
+  --color-line-strong: rgba(237, 239, 242, 0.18);
+
+  --color-ink: #edeff2;
+  --color-dim: #99a1ad;
+  --color-faint: #5d6572;
+
+  /* Saffron — the brand */
+  --color-saffron: #ff8e1f;
+  --color-saffron-bright: #ffb347;
+  --color-saffron-deep: #a85e0a;
+
+  /* Division accents — a quiet tricolour */
+  --color-chakra: #4da3ff;
+  --color-leaf: #34c26b;
+
+  /* ── Type ────────────────────────────────────────────── */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-devanagari: var(--font-devanagari-sans), system-ui, sans-serif;
+
+  /* ── Motion ──────────────────────────────────────────── */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-sweep: sweep 6s linear infinite;
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-blip: blip 3s ease-out infinite;
+  --animate-dash-flow: dash-flow 1.6s linear infinite;
+  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+
+  @keyframes sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes blip {
+    0% { opacity: 0; transform: scale(0.4); }
+    12% { opacity: 1; transform: scale(1); }
+    70% { opacity: 0.55; }
+    100% { opacity: 0; transform: scale(1.35); }
+  }
+  @keyframes dash-flow {
+    from { stroke-dashoffset: 24; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 142, 31, 0.45); }
+    50% { opacity: 0.72; box-shadow: 0 0 0 6px rgba(255, 142, 31, 0); }
+  }
+}
+
+/* ── Base ──────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background: rgba(255, 142, 31, 0.9);
+  color: #06070a;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(237, 239, 242, 0.18) transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-saffron);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ── Utilities ─────────────────────────────────────────── */
+
+@utility container-x {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1360px;
+  padding-inline: clamp(1.25rem, 4vw, 3.5rem);
+}
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+@utility label-sm {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(237, 239, 242, 0.34);
+}
+
+@utility text-outline-saffron {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 142, 31, 0.6);
+}
+
+/* Fine blueprint grid */
+@utility bg-blueprint {
+  background-image:
+    linear-gradient(rgba(237, 239, 242, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(237, 239, 242, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility bg-blueprint-fine {
+  background-image:
+    linear-gradient(rgba(237, 239, 242, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(237, 239, 242, 0.025) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Dotted survey grid */
+@utility bg-survey {
+  background-image: radial-gradient(rgba(237, 239, 242, 0.12) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* Saffron → white → green hairline, the quietest possible flag */
+@utility hairline-tricolor {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 142, 31, 0.9) 0%,
+    rgba(255, 142, 31, 0.35) 34%,
+    rgba(237, 239, 242, 0.28) 50%,
+    rgba(52, 194, 107, 0.35) 66%,
+    rgba(52, 194, 107, 0.9) 100%
+  );
+}
+
+@utility glow-saffron {
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    rgba(255, 142, 31, 0.13),
+    transparent 70%
+  );
+}
+
+/* ── Reduced motion ───────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
