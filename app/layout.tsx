@@ -81,8 +81,6 @@ const JSON_LD = {
   founder: { "@type": "Person", name: "Atul Malik" },
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Gohana",
-    addressRegion: "Haryana",
     addressCountry: "IN",
   },
   sameAs: [],

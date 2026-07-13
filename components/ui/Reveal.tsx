@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { EASE_OUT, gsap, prefersReducedMotion } from "@/lib/gsap";
 
 type RevealProps = {
   children: ReactNode;
@@ -11,19 +11,43 @@ type RevealProps = {
   once?: boolean;
 };
 
-/** Fade-and-rise scroll reveal used across every section. */
+/** Fade-and-rise scroll reveal used across every section — GSAP ScrollTrigger. */
 export function Reveal({ children, delay = 0, y = 26, className, once = true }: RevealProps) {
-  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (prefersReducedMotion()) {
+      gsap.set(el, { autoAlpha: 1, y: 0 });
+      return;
+    }
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { autoAlpha: 0, y },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.75,
+          delay,
+          ease: EASE_OUT,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 88%",
+            once,
+            toggleActions: once ? "play none none none" : "play none none reverse",
+          },
+        },
+      );
+    }, el);
+    return () => ctx.revert();
+  }, [delay, y, once]);
+
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: reduce ? 0 : y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-72px" }}
-      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <div ref={ref} className={className} style={{ opacity: 0 }}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -37,16 +61,38 @@ export function RevealGroup({
   className?: string;
   stagger?: number;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const items = el.querySelectorAll<HTMLElement>("[data-reveal-item]");
+    if (!items.length) return;
+    if (prefersReducedMotion()) {
+      gsap.set(items, { autoAlpha: 1, y: 0 });
+      return;
+    }
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        items,
+        { autoAlpha: 0, y: (_i, t) => Number((t as HTMLElement).dataset.revealY ?? 26) },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          ease: EASE_OUT,
+          stagger,
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        },
+      );
+    }, el);
+    return () => ctx.revert();
+  }, [stagger]);
+
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-72px" }}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: stagger } } }}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -59,20 +105,9 @@ export function RevealItem({
   className?: string;
   y?: number;
 }) {
-  const reduce = useReducedMotion();
   return (
-    <motion.div
-      className={className}
-      variants={{
-        hidden: { opacity: 0, y: reduce ? 0 : y },
-        show: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-        },
-      }}
-    >
+    <div data-reveal-item data-reveal-y={y} className={className} style={{ opacity: 0 }}>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -15,7 +15,7 @@ One indigenous stack, three national missions:
 
 - **Next.js 15** (App Router, static prerender — every route ships as static HTML)
 - **Tailwind CSS v4** (design tokens live in `app/globals.css`)
-- **Motion** (framer-motion) for scroll reveals and the schematic draw-on animations
+- **GSAP + ScrollTrigger** for all scroll-based animation — section reveals, stat count-ups, and the schematic draw-ons (Motion remains only for the mobile-nav and hero entrance transitions)
 - Zero external assets — every graphic (radar scope, drone schematics, route diagrams) is hand-drawn inline SVG
 
 ## Run locally

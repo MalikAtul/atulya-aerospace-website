@@ -37,8 +37,8 @@ export function Hero() {
           variants={{ show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } }}
         >
           <motion.p variants={rise} className="label-sm flex flex-wrap items-center gap-x-4 gap-y-2 text-dim">
-            <span className="text-saffron">[ {SITE.coordinates} ]</span>
-            <span>GOHANA · HARYANA · BHARAT</span>
+            <span className="text-saffron">[ EST. {SITE.founded} ]</span>
+            <span>{HERO.kicker}</span>
           </motion.p>
 
           <motion.h1
@@ -67,7 +67,7 @@ export function Hero() {
           <motion.div variants={rise} className="mt-10 flex flex-wrap items-center gap-4">
             <Link
               href={HERO.primaryCta.href}
-              className="label group inline-flex items-center gap-3 bg-saffron px-7 py-4 text-void transition-colors duration-300 hover:bg-saffron-bright"
+              className="label btn-sheen group inline-flex items-center gap-3 bg-saffron px-7 py-4 text-void transition-colors duration-300 hover:bg-saffron-bright"
             >
               {HERO.primaryCta.label}
               <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>

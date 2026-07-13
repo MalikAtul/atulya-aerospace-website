@@ -2,43 +2,115 @@
 
 /**
  * MedFly corridor network — one civil hospital radiating to rural PHCs.
+ * GSAP ScrollTrigger choreography: range rings and the hub fade up,
+ * then each dashed corridor draws outward (through a stroke mask) and
+ * its PHC node pops in as the corridor reaches it.
  */
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { useEffect, useRef } from "react";
+import { EASE_OUT, gsap, prefersReducedMotion } from "@/lib/gsap";
 
 const HUB = { x: 150, y: 200 };
 
 const SPOKES = [
-  { x: 420, y: 62, label: "PHC — 01", time: "6 MIN", delay: 0.15 },
-  { x: 540, y: 168, label: "PHC — 02", time: "8 MIN", delay: 0.4 },
-  { x: 500, y: 306, label: "PHC — 03", time: "9 MIN", delay: 0.65 },
-  { x: 330, y: 350, label: "PHC — 04", time: "5 MIN", delay: 0.9 },
-  { x: 372, y: 196, label: "PHC — 05", time: "4 MIN", delay: 1.15 },
+  { x: 420, y: 62, label: "PHC — 01", time: "6 MIN" },
+  { x: 540, y: 168, label: "PHC — 02", time: "8 MIN" },
+  { x: 500, y: 306, label: "PHC — 03", time: "9 MIN" },
+  { x: 330, y: 350, label: "PHC — 04", time: "5 MIN" },
+  { x: 372, y: 196, label: "PHC — 05", time: "4 MIN" },
 ] as const;
 
-const fade: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.7 } },
-};
+const STEP = 0.25;
 
 export function HubSpoke({ className = "" }: { className?: string }) {
-  const reduce = useReducedMotion();
+  const ref = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const svg = ref.current;
+    if (!svg) return;
+    if (prefersReducedMotion()) {
+      gsap.set(svg, { autoAlpha: 1 });
+      return;
+    }
+    const ctx = gsap.context(() => {
+      const fades = svg.querySelectorAll('[data-hs="fade"]');
+      const masks = Array.from(svg.querySelectorAll<SVGGeometryElement>('[data-hs="corridor-mask"]'));
+      const nodes = Array.from(svg.querySelectorAll<SVGGElement>('[data-hs="node"]'));
+
+      gsap.set(fades, { autoAlpha: 0 });
+      masks.forEach((m) => {
+        const len = m.getTotalLength();
+        gsap.set(m, { strokeDasharray: len, strokeDashoffset: len });
+      });
+      nodes.forEach((n) => {
+        gsap.set(n, {
+          autoAlpha: 0,
+          scale: 0.8,
+          svgOrigin: `${n.dataset.x} ${n.dataset.y}`,
+        });
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: svg, start: "top 80%", once: true },
+      });
+      tl.to(svg, { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, 0).to(
+        fades,
+        { autoAlpha: 1, duration: 0.7, stagger: 0.08, ease: "power2.out" },
+        0.05,
+      );
+      masks.forEach((m, i) => {
+        tl.to(m, { strokeDashoffset: 0, duration: 0.9, ease: EASE_OUT }, 0.15 + i * STEP);
+      });
+      nodes.forEach((n, i) => {
+        tl.to(
+          n,
+          { autoAlpha: 1, scale: 1, duration: 0.5, ease: "back.out(2)" },
+          0.6 + i * STEP,
+        );
+      });
+    }, svg);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <motion.svg
+    <svg
+      ref={ref}
       viewBox="0 0 640 400"
       fill="none"
       role="img"
       aria-label="Diagram of drone corridors linking a district civil hospital to five rural primary health centres"
       className={className}
-      initial={reduce ? "show" : "hidden"}
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
+      style={{ opacity: 0 }}
     >
+      <defs>
+        {SPOKES.map((s, i) => (
+          <mask
+            key={`m-${s.label}`}
+            id={`hs-corridor-${i}`}
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="640"
+            height="400"
+          >
+            <line
+              data-hs="corridor-mask"
+              x1={HUB.x}
+              y1={HUB.y}
+              x2={s.x}
+              y2={s.y}
+              stroke="#fff"
+              strokeWidth="6"
+            />
+          </mask>
+        ))}
+      </defs>
+
       {/* Range rings around the hub */}
       {[110, 210, 310].map((r, i) => (
-        <motion.circle
+        <circle
           key={r}
-          variants={fade}
+          data-hs="fade"
           cx={HUB.x}
           cy={HUB.y}
           r={r}
@@ -47,8 +119,8 @@ export function HubSpoke({ className = "" }: { className?: string }) {
           strokeDasharray={i === 2 ? "3 6" : undefined}
         />
       ))}
-      <motion.text
-        variants={fade}
+      <text
+        data-hs="fade"
         x={HUB.x + 116}
         y={HUB.y - 96}
         fill="rgba(237,239,242,0.3)"
@@ -57,36 +129,26 @@ export function HubSpoke({ className = "" }: { className?: string }) {
         letterSpacing="1.5"
       >
         CORRIDOR RANGE
-      </motion.text>
+      </text>
 
-      {/* Corridors */}
-      {SPOKES.map((s) => (
-        <motion.line
-          key={s.label}
-          x1={HUB.x}
-          y1={HUB.y}
-          x2={s.x}
-          y2={s.y}
-          stroke="rgba(52,194,107,0.55)"
-          strokeWidth="1.4"
-          strokeDasharray="6 7"
-          initial={reduce ? { opacity: 1 } : { pathLength: 0, opacity: 0 }}
-          whileInView={{ pathLength: 1, opacity: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.9, delay: s.delay, ease: [0.22, 1, 0.36, 1] }}
-        />
+      {/* Corridors — dashed, revealed outward through their stroke masks */}
+      {SPOKES.map((s, i) => (
+        <g key={s.label} mask={`url(#hs-corridor-${i})`}>
+          <line
+            x1={HUB.x}
+            y1={HUB.y}
+            x2={s.x}
+            y2={s.y}
+            stroke="rgba(52,194,107,0.55)"
+            strokeWidth="1.4"
+            strokeDasharray="6 7"
+          />
+        </g>
       ))}
 
       {/* PHC nodes */}
       {SPOKES.map((s) => (
-        <motion.g
-          key={`n-${s.label}`}
-          initial={reduce ? { opacity: 1 } : { opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5, delay: s.delay + 0.45 }}
-          style={{ transformOrigin: `${s.x}px ${s.y}px` }}
-        >
+        <g key={`n-${s.label}`} data-hs="node" data-x={s.x} data-y={s.y}>
           <circle cx={s.x} cy={s.y} r={7} stroke="var(--color-leaf)" strokeWidth="1.3" fill="var(--color-void)" />
           <circle cx={s.x} cy={s.y} r={2.2} fill="var(--color-leaf)" />
           <text
@@ -110,11 +172,11 @@ export function HubSpoke({ className = "" }: { className?: string }) {
           >
             {s.time}
           </text>
-        </motion.g>
+        </g>
       ))}
 
       {/* Hub — the civil hospital */}
-      <motion.g variants={fade}>
+      <g data-hs="fade">
         <rect
           x={HUB.x - 22}
           y={HUB.y - 22}
@@ -149,7 +211,7 @@ export function HubSpoke({ className = "" }: { className?: string }) {
         >
           BLOOD BANK · PHARMACY
         </text>
-      </motion.g>
-    </motion.svg>
+      </g>
+    </svg>
   );
 }

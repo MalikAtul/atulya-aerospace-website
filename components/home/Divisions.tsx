@@ -40,7 +40,7 @@ export function Divisions() {
               <RevealItem key={d.code} className="h-full">
                 <Link
                   href={d.slug}
-                  className={`group relative flex h-full flex-col border border-line bg-surface/50 transition-colors duration-500 ${a.border}`}
+                  className={`group relative flex h-full flex-col border border-line bg-surface/50 transition-[border-color,transform] duration-500 hover:-translate-y-1.5 ${a.border}`}
                 >
                   <span aria-hidden className={`absolute left-0 top-0 h-[3px] w-14 ${a.bar}`} />
 

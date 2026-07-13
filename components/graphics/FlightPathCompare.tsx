@@ -2,42 +2,13 @@
 
 /**
  * Delhiver's core argument, drawn: the road route vs the flight line.
+ * GSAP ScrollTrigger choreography — the city fades up, the road crawls
+ * through the grid, then the flight line cuts straight across it.
+ * The dashed road keeps its dashes by drawing on through a stroke mask.
  */
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-const drawSlow: Variants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  show: {
-    pathLength: 1,
-    opacity: 1,
-    transition: { pathLength: { duration: 1.6, ease: "easeInOut" }, opacity: { duration: 0.3 } },
-  },
-};
-
-const drawFast: Variants = {
-  hidden: { pathLength: 0, opacity: 0 },
-  show: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      pathLength: { duration: 0.8, ease: EASE, delay: 1.4 },
-      opacity: { duration: 0.3, delay: 1.4 },
-    },
-  },
-};
-
-const fade: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.7, delay: 0.3 } },
-};
-
-const fadeLate: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.7, delay: 1.9 } },
-};
+import { useEffect, useRef } from "react";
+import { EASE_OUT, gsap, prefersReducedMotion } from "@/lib/gsap";
 
 // City blocks — a loose grid the road has to respect.
 const BLOCKS = [
@@ -46,21 +17,62 @@ const BLOCKS = [
   [96, 222, 74, 54], [196, 222, 88, 54], [310, 222, 70, 54], [406, 222, 92, 54],
 ] as const;
 
+const ROAD_D =
+  "M 66 314 L 174 314 L 174 208 L 296 208 L 296 118 L 392 118 L 392 190 L 512 190 L 512 96 L 566 96";
+
 export function FlightPathCompare({ className = "" }: { className?: string }) {
-  const reduce = useReducedMotion();
+  const ref = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const svg = ref.current;
+    if (!svg) return;
+    if (prefersReducedMotion()) {
+      gsap.set(svg, { autoAlpha: 1 });
+      return;
+    }
+    const ctx = gsap.context(() => {
+      const early = svg.querySelectorAll('[data-fpc="fade-early"]');
+      const late = svg.querySelectorAll('[data-fpc="fade-late"]');
+      const roadMask = svg.querySelector<SVGGeometryElement>('[data-fpc="road-mask"]');
+      const flight = svg.querySelector<SVGGeometryElement>('[data-fpc="flight"]');
+      if (!roadMask || !flight) return;
+
+      const roadLen = roadMask.getTotalLength();
+      const flightLen = flight.getTotalLength();
+      gsap.set(roadMask, { strokeDasharray: roadLen, strokeDashoffset: roadLen });
+      gsap.set(flight, { strokeDasharray: flightLen, strokeDashoffset: flightLen, opacity: 0 });
+      gsap.set([...early, ...late], { autoAlpha: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: svg, start: "top 80%", once: true },
+      });
+      tl.to(svg, { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, 0)
+        .to(early, { autoAlpha: 1, duration: 0.7, stagger: 0.06, ease: "power2.out" }, 0.05)
+        .to(roadMask, { strokeDashoffset: 0, duration: 1.6, ease: "power1.inOut" }, 0.15)
+        .to(flight, { strokeDashoffset: 0, opacity: 1, duration: 0.8, ease: EASE_OUT }, 1.45)
+        .to(late, { autoAlpha: 1, duration: 0.7, ease: "power2.out" }, 1.95);
+    }, svg);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <motion.svg
+    <svg
+      ref={ref}
       viewBox="0 0 640 360"
       fill="none"
       aria-label="Diagram comparing a winding road delivery route with a straight drone flight line"
       role="img"
       className={className}
-      initial={reduce ? "show" : "hidden"}
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
+      style={{ opacity: 0 }}
     >
+      <defs>
+        <mask id="fpc-road-reveal" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="360">
+          <path data-fpc="road-mask" d={ROAD_D} stroke="#fff" strokeWidth="6" fill="none" />
+        </mask>
+      </defs>
+
       {/* City fabric */}
-      <motion.g variants={fade}>
+      <g data-fpc="fade-early">
         {BLOCKS.map(([x, y, w, h]) => (
           <rect
             key={`${x}-${y}`}
@@ -72,51 +84,47 @@ export function FlightPathCompare({ className = "" }: { className?: string }) {
             strokeWidth="1"
           />
         ))}
-      </motion.g>
+      </g>
 
       {/* Hub */}
-      <motion.g variants={fade}>
+      <g data-fpc="fade-early">
         <rect x={30} y={296} width={36} height={36} stroke="var(--color-chakra)" strokeWidth="1.3" fill="var(--color-void)" />
         <path d="M48 304 L57 324 L48 319.5 L39 324 Z" fill="var(--color-chakra)" />
         <text x={30} y={352} fill="rgba(237,239,242,0.55)" fontFamily="var(--font-mono)" fontSize="10" letterSpacing="1.5">
           DELHIVER HUB
         </text>
-      </motion.g>
+      </g>
 
       {/* Destination */}
-      <motion.g variants={fade}>
+      <g data-fpc="fade-early">
         <circle cx={584} cy={78} r={17} stroke="rgba(237,239,242,0.6)" strokeWidth="1.2" fill="var(--color-void)" />
         <path d="M577 80 L584 72 L591 80 M580 79 L580 86 L588 86 L588 79" stroke="rgba(237,239,242,0.7)" strokeWidth="1.1" fill="none" />
         <text x={568} y={112} fill="rgba(237,239,242,0.55)" fontFamily="var(--font-mono)" fontSize="10" letterSpacing="1.5">
           DOORSTEP
         </text>
-      </motion.g>
+      </g>
 
-      {/* Road route — orthogonal crawl through the grid */}
-      <motion.path
-        variants={drawSlow}
-        d="M 66 314 L 174 314 L 174 208 L 296 208 L 296 118 L 392 118 L 392 190 L 512 190 L 512 96 L 566 96"
-        stroke="rgba(237,239,242,0.38)"
-        strokeWidth="1.6"
-        strokeDasharray="7 5"
-      />
-      <motion.g variants={fadeLate}>
+      {/* Road route — dashed crawl, revealed through the stroke mask */}
+      <g mask="url(#fpc-road-reveal)">
+        <path
+          d={ROAD_D}
+          stroke="rgba(237,239,242,0.38)"
+          strokeWidth="1.6"
+          strokeDasharray="7 5"
+        />
+      </g>
+      <g data-fpc="fade-late">
         <text x={252} y={326} fill="rgba(237,239,242,0.42)" fontFamily="var(--font-mono)" fontSize="10.5" letterSpacing="1.5">
           GROUND ROUTE
         </text>
         <text x={252} y={340} fill="rgba(237,239,242,0.3)" fontFamily="var(--font-mono)" fontSize="9.5" letterSpacing="1">
           ROADS · SIGNALS · TRAFFIC
         </text>
-      </motion.g>
+      </g>
 
       {/* Flight line — the displacement */}
-      <motion.path
-        variants={drawFast}
-        d="M 62 300 L 570 88"
-        stroke="var(--color-chakra)"
-        strokeWidth="2"
-      />
-      <motion.g variants={fadeLate}>
+      <path data-fpc="flight" d="M 62 300 L 570 88" stroke="var(--color-chakra)" strokeWidth="2" />
+      <g data-fpc="fade-late">
         <path d="M 330 186 L 342 198 L 326 202 Z" fill="var(--color-chakra)" transform="rotate(-8 334 194)" />
         <text x={348} y={228} fill="var(--color-chakra)" fontFamily="var(--font-mono)" fontSize="10.5" letterSpacing="1.5">
           DELHIVER FLIGHT
@@ -124,7 +132,7 @@ export function FlightPathCompare({ className = "" }: { className?: string }) {
         <text x={348} y={242} fill="rgba(77,163,255,0.6)" fontFamily="var(--font-mono)" fontSize="9.5" letterSpacing="1">
           STRAIGHT-LINE DISPLACEMENT
         </text>
-      </motion.g>
-    </motion.svg>
+      </g>
+    </svg>
   );
 }

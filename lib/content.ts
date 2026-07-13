@@ -10,11 +10,9 @@ export const SITE = {
   meaning: "Peerless. Incomparable.",
   tagline: "India's unified autonomous drone platform.",
   description:
-    "One indigenous autonomy stack flying three national missions — border defense, drone-native quick commerce, and emergency medical logistics. Founded in Gohana, Haryana.",
+    "One indigenous autonomy stack flying three national missions — border defense, drone-native quick commerce, and emergency medical logistics. Built in India.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://atulya-aerospace.vercel.app",
-  email: "atulmalik475@gmail.com",
-  base: "Gohana, Haryana, India",
-  coordinates: "29.1383° N · 76.7021° E",
+  email: "atulyaaerospace@protonmail.com",
   founded: "2026",
 } as const;
 
@@ -31,7 +29,8 @@ export const HERO = {
 export const TICKER_ITEMS = [
   "15,106 km land border",
   "7,516 km coastline",
-  "60%+ defense imports to erase",
+  "~65% defense imports to erase",
+  "$23 bn drone market by 2030",
   "sub-10-minute urban delivery",
   "8-minute medicine runs",
   "805 km/h strike platform",
@@ -41,34 +40,45 @@ export const TICKER_ITEMS = [
 
 /* ── Headline numbers ────────────────────────────────────────────────── */
 
-export const STATS = [
+export type Stat = {
+  value: number;
+  prefix?: string;
+  unit: string;
+  label: string;
+  note: string;
+  source: string;
+};
+
+export const STATS: readonly Stat[] = [
   {
     value: 15106,
-    format: "int",
     unit: "KM",
     label: "Land border under watch",
     note: "Guarded today by aging, non-autonomous surveillance",
+    source: "Ministry of Home Affairs",
   },
   {
     value: 7516,
-    format: "int",
     unit: "KM",
     label: "Coastline to patrol",
     note: "Persistent maritime awareness, airborne",
+    source: "Ministry of Earth Sciences",
   },
   {
-    value: 60,
-    format: "percent",
+    value: 65,
+    prefix: "~",
     unit: "%",
     label: "Of defense equipment imported",
     note: "The number Atulya exists to drive to zero",
+    source: "Ministry of Defence",
   },
   {
-    value: 10,
-    format: "lt",
-    unit: "MIN",
-    label: "Urban delivery, hub to doorstep",
-    note: "Straight-line flight beats every road ever built",
+    value: 23,
+    prefix: "$",
+    unit: "BN",
+    label: "India's drone market by 2030",
+    note: "Projected economic impact of the national drone opportunity",
+    source: "Ministry of Civil Aviation",
   },
 ] as const;
 
@@ -87,7 +97,7 @@ export const DOCTRINE = {
     {
       index: "P-02",
       title: "An import-dependent arsenal",
-      body: "Over 60% of India's defense equipment is bought abroad — with foreign spares, foreign timelines, and foreign permission baked into every deployment.",
+      body: "Around 65% of India's defense equipment is bought abroad — with foreign spares, foreign timelines, and foreign permission baked into every deployment.",
       answer: "A drone stack designed, built, and owned end-to-end in India.",
     },
     {
@@ -157,7 +167,7 @@ export const DIVISIONS: Division[] = [
     systems: [
       "Consumer ordering app",
       "Neighbourhood micro-hubs",
-      "Autonomous cargo drones",
+      "VTOL tiltrotor cargo drones",
       "Sub-10-minute doorstep delivery",
     ],
     status: "PHASE 1 — HARYANA LAUNCH",
@@ -201,7 +211,7 @@ export const PLATFORM = {
       label: "Airframes",
       value: "Multirotor · Fixed-wing · Jet",
       detail:
-        "Mission-specific bodies on a common avionics and power bus — from neighbourhood cargo quads to high-altitude long-endurance wings to turbine-driven strike platforms.",
+        "Mission-specific bodies on a common avionics and power bus — from neighbourhood cargo tiltrotors to high-altitude long-endurance wings to turbine-driven strike platforms.",
     },
     {
       label: "Propulsion",
@@ -300,11 +310,8 @@ export const FOUNDER = {
   name: "Atul Malik",
   role: "Founder",
   dossier: [
-    { label: "Base", value: "Gohana, Haryana, India" },
-    { label: "Born", value: "14 July 2010" },
-    { label: "Track", value: "Class XI · Physics, Chemistry, Mathematics" },
     { label: "Field", value: "Aerospace · Autonomous systems · Defense tech" },
-    { label: "Building since", value: "Class 4 — 2019" },
+    { label: "Company", value: "Atulya Aerospace — Defense · Delhiver · MedFly" },
   ],
   story: [
     "Since 2019 he has been taking apart the question of how machines and systems work — six years of self-directed research into aerospace, autonomous systems, and defense technology, all of it before any formal instruction in the field.",
@@ -341,8 +348,11 @@ export const CONTACT = {
     "Media",
   ],
   rows: [
-    { label: "Email", value: "atulmalik475@gmail.com", href: "mailto:atulmalik475@gmail.com" },
-    { label: "Base", value: "Gohana, Haryana, India" },
+    {
+      label: "Email",
+      value: "atulyaaerospace@protonmail.com",
+      href: "mailto:atulyaaerospace@protonmail.com",
+    },
     { label: "Response", value: "Within 48 hours" },
   ],
 } as const;
@@ -388,11 +398,11 @@ export const DEFENSE_PAGE = {
     {
       designation: "AD-J1",
       name: "Jet Strike Platform",
-      className: "Turbine · Multi-role",
+      className: "Turbine · Cranked Delta",
       schematic: "jet" as const,
       description:
-        "A high-speed jet-powered airframe drawing on cutting-edge RC aircraft design, targeting the ~805 km/h (500 mph) class — one platform spanning fast surveillance, kamikaze strike, and surface defense.",
-      chips: ["805 km/h design target", "Surveillance / strike / surface defense", "Turbine propulsion"],
+        "A jet-powered cranked-delta airframe — sharp fighter nose blending into the body, full delta wing from mid-body to tail — targeting the ~805 km/h (500 mph) class across fast surveillance, kamikaze strike, and surface defense.",
+      chips: ["805 km/h design target", "Cranked delta planform", "Turbine propulsion"],
     },
     {
       designation: "AD-C1",
@@ -418,8 +428,8 @@ export const DEFENSE_PAGE = {
       className: "Counter-UAS · Interdiction",
       schematic: "intercept" as const,
       description:
-        "An autonomous interceptor for the drug-smuggling UAVs crossing India's western border — detect, chase, and bring down hostile traffic without scrambling anything crewed.",
-      chips: ["Counter-smuggling UAV", "Autonomous intercept", "Night operations"],
+        "A tube-launched, rocket-bodied interceptor with four tail-mounted motors for the smuggling UAVs crossing India's western border — detect, chase, and bring down hostile traffic without scrambling anything crewed.",
+      chips: ["Tube-launched", "Autonomous intercept", "Night operations"],
     },
   ],
   swarm: {
@@ -487,7 +497,7 @@ export const DELHIVER_PAGE = {
       { label: "ORDER", text: "Prepaid order placed on the Delhiver app — no cash handling at the door." },
       { label: "DISPATCH", text: "The nearest neighbourhood hub packs and loads the drone in minutes." },
       { label: "FLIGHT", text: "Straight-line autonomous flight along a reserved delivery corridor." },
-      { label: "DELIVERY", text: "Doorstep or pad drop — under ten minutes from tap to hand." },
+      { label: "DELIVERY", text: "The sealed pod winches down at the doorstep, releases on OTP verification, and retracts — under ten minutes from tap to hand." },
     ],
   },
   network: {
@@ -524,7 +534,7 @@ export const MEDFLY_PAGE = {
       { label: "REQUEST", text: "PHC raises a demand — blood unit, antivenom, emergency medicine." },
       { label: "LOAD", text: "Nearest civil hospital or blood bank loads the cold-chain payload bay." },
       { label: "FLIGHT", text: "Autonomous straight-line corridor flight — no roads, no traffic, no hours." },
-      { label: "HANDOVER", text: "Pad delivery at the PHC in minutes, chain of custody intact." },
+      { label: "HANDOVER", text: "The cold-chain pod winches down at the PHC pad and releases on OTP verification — chain of custody intact." },
     ],
     payloads: [
       "Whole blood & components",
@@ -570,9 +580,9 @@ export const FOOTER = {
       title: "Engage",
       links: [
         { label: "Request Briefing", href: "/#contact" },
-        { label: "atulmalik475@gmail.com", href: "mailto:atulmalik475@gmail.com" },
+        { label: "atulyaaerospace@protonmail.com", href: "mailto:atulyaaerospace@protonmail.com" },
       ],
     },
   ],
-  line: "Designed and engineered in Gohana, Haryana, India.",
+  line: "Designed and engineered in India.",
 } as const;

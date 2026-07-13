@@ -14,12 +14,13 @@ export function StatBand() {
             } ${i === 1 ? "border-t sm:border-t-0" : ""}`}
           >
             <p className="display flex items-baseline gap-2 text-[2.6rem] md:text-[3rem]">
-              {stat.format === "lt" && <span className="text-saffron">&lt;</span>}
+              {stat.prefix ? <span className="text-saffron">{stat.prefix}</span> : null}
               <CountUp value={stat.value} />
               <span className="label text-saffron">{stat.unit}</span>
             </p>
             <p className="label-sm mt-3 text-ink">{stat.label}</p>
             <p className="mt-2 text-[0.82rem] leading-relaxed text-faint">{stat.note}</p>
+            <p className="label-sm mt-4 text-faint/70">Source — {stat.source}</p>
           </RevealItem>
         ))}
       </RevealGroup>

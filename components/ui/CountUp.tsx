@@ -1,7 +1,7 @@
 "use client";
 
-import { animate, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
+import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 type CountUpProps = {
   value: number;
@@ -11,29 +11,32 @@ type CountUpProps = {
   duration?: number;
 };
 
-/** Animates a number from 0 to `value` when it scrolls into view. */
+/** Counts from 0 to `value` when scrolled into view — GSAP ScrollTrigger. */
 export function CountUp({ value, className, prefix = "", suffix = "", duration = 1.8 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const reduce = useReducedMotion();
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    if (!inView) return;
-    if (reduce) {
-      node.textContent = `${prefix}${value.toLocaleString("en-IN")}${suffix}`;
+    const format = (n: number) => `${prefix}${Math.round(n).toLocaleString("en-IN")}${suffix}`;
+    if (prefersReducedMotion()) {
+      node.textContent = format(value);
       return;
     }
-    const controls = animate(0, value, {
-      duration,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (latest) => {
-        node.textContent = `${prefix}${Math.round(latest).toLocaleString("en-IN")}${suffix}`;
-      },
+    const proxy = { v: 0 };
+    const ctx = gsap.context(() => {
+      gsap.to(proxy, {
+        v: value,
+        duration,
+        ease: "expo.out",
+        scrollTrigger: { trigger: node, start: "top 90%", once: true },
+        onUpdate: () => {
+          node.textContent = format(proxy.v);
+        },
+      });
     });
-    return () => controls.stop();
-  }, [inView, value, prefix, suffix, duration, reduce]);
+    return () => ctx.revert();
+  }, [value, prefix, suffix, duration]);
 
   return (
     <span ref={ref} className={className}>

@@ -137,7 +137,7 @@ export function DivisionCTA({ current, accent }: { current: string; accent: Divi
         <div className="flex flex-wrap items-center gap-4">
           <Link
             href="/#contact"
-            className="label group inline-flex items-center gap-3 bg-saffron px-7 py-4 text-void transition-colors duration-300 hover:bg-saffron-bright"
+            className="label btn-sheen group inline-flex items-center gap-3 bg-saffron px-7 py-4 text-void transition-colors duration-300 hover:bg-saffron-bright"
           >
             Open Channel
             <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>

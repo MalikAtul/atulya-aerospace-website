@@ -78,7 +78,7 @@ export default function OpengraphImage() {
           }}
         >
           <div>Defense · Delhiver · MedFly</div>
-          <div>Gohana · Haryana · Bharat</div>
+          <div>Designed in Bharat</div>
         </div>
       </div>
     ),

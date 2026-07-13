@@ -120,7 +120,7 @@ export function BriefingForm() {
       <div className="mt-10 flex flex-wrap items-center gap-5">
         <button
           type="submit"
-          className="label group inline-flex items-center gap-3 bg-saffron px-8 py-4 text-void transition-colors duration-300 hover:bg-saffron-bright"
+          className="label btn-sheen group inline-flex items-center gap-3 bg-saffron px-8 py-4 text-void transition-colors duration-300 hover:bg-saffron-bright"
         >
           Transmit
           <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>

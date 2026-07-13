@@ -167,7 +167,7 @@ export function RadarScope({ className = "" }: { className?: string }) {
             fontSize="10.5"
             letterSpacing="2"
           >
-            GOHANA HUB
+            ATULYA HUB
           </text>
         </g>
       </svg>

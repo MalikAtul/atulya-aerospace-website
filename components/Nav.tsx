@@ -61,7 +61,7 @@ export function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`label-sm transition-colors duration-300 ${
+                className={`label-sm nav-underline pb-1 transition-colors duration-300 ${
                   active ? "text-saffron" : "text-dim hover:text-ink"
                 }`}
               >
@@ -138,7 +138,7 @@ export function Nav() {
               </motion.div>
             </div>
             <div className="container-x pb-10 pt-12">
-              <p className="label-sm text-faint">Gohana · Haryana · Bharat</p>
+              <p className="label-sm text-faint">One stack · Three missions · Bharat</p>
             </div>
           </motion.nav>
         )}

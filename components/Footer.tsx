@@ -49,7 +49,7 @@ export function Footer() {
             © {new Date().getFullYear()} {SITE.name} · {FOOTER.line}
           </p>
           <p className="label-sm text-faint">
-            {SITE.coordinates} · {SITE.devanagari} — {SITE.meaning}
+            {SITE.devanagari} — {SITE.meaning}
           </p>
         </div>
       </div>
