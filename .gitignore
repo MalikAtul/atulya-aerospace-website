@@ -29,3 +29,7 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# local working material — never publish
+PROMPT.md
+/references/
