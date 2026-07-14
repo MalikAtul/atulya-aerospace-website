@@ -114,7 +114,7 @@ export function HubSpoke({ className = "" }: { className?: string }) {
           cx={HUB.x}
           cy={HUB.y}
           r={r}
-          stroke="rgba(237,239,242,0.09)"
+          stroke="#e8e8e8"
           strokeWidth="1"
           strokeDasharray={i === 2 ? "3 6" : undefined}
         />
@@ -123,9 +123,10 @@ export function HubSpoke({ className = "" }: { className?: string }) {
         data-hs="fade"
         x={HUB.x + 116}
         y={HUB.y - 96}
-        fill="rgba(237,239,242,0.3)"
-        fontFamily="var(--font-mono)"
+        fill="#9ca3af"
+        fontFamily="var(--font-body)"
         fontSize="9.5"
+        fontWeight="600"
         letterSpacing="1.5"
       >
         CORRIDOR RANGE
@@ -139,7 +140,7 @@ export function HubSpoke({ className = "" }: { className?: string }) {
             y1={HUB.y}
             x2={s.x}
             y2={s.y}
-            stroke="rgba(52,194,107,0.55)"
+            stroke="rgba(0,132,61,0.6)"
             strokeWidth="1.4"
             strokeDasharray="6 7"
           />
@@ -149,13 +150,13 @@ export function HubSpoke({ className = "" }: { className?: string }) {
       {/* PHC nodes */}
       {SPOKES.map((s) => (
         <g key={`n-${s.label}`} data-hs="node" data-x={s.x} data-y={s.y}>
-          <circle cx={s.x} cy={s.y} r={7} stroke="var(--color-leaf)" strokeWidth="1.3" fill="var(--color-void)" />
-          <circle cx={s.x} cy={s.y} r={2.2} fill="var(--color-leaf)" />
+          <circle cx={s.x} cy={s.y} r={7} stroke="var(--color-medfly)" strokeWidth="1.3" fill="var(--color-base)" />
+          <circle cx={s.x} cy={s.y} r={2.2} fill="var(--color-medfly)" />
           <text
             x={s.x + 14}
             y={s.y + 1}
-            fill="rgba(237,239,242,0.7)"
-            fontFamily="var(--font-mono)"
+            fill="#49535e"
+            fontFamily="var(--font-body)"
             fontSize="10.5"
             fontWeight="600"
             letterSpacing="1"
@@ -165,9 +166,10 @@ export function HubSpoke({ className = "" }: { className?: string }) {
           <text
             x={s.x + 14}
             y={s.y + 14}
-            fill="rgba(52,194,107,0.8)"
-            fontFamily="var(--font-mono)"
+            fill="var(--color-medfly)"
+            fontFamily="var(--font-body)"
             fontSize="9.5"
+            fontWeight="600"
             letterSpacing="1"
           >
             {s.time}
@@ -182,21 +184,22 @@ export function HubSpoke({ className = "" }: { className?: string }) {
           y={HUB.y - 22}
           width={44}
           height={44}
-          stroke="var(--color-leaf)"
+          stroke="var(--color-medfly)"
           strokeWidth="1.5"
-          fill="var(--color-void)"
+          fill="var(--color-base)"
         />
         <path
           d={`M${HUB.x} ${HUB.y - 11} L${HUB.x} ${HUB.y + 11} M${HUB.x - 11} ${HUB.y} L${HUB.x + 11} ${HUB.y}`}
-          stroke="var(--color-leaf)"
+          stroke="var(--color-medfly)"
           strokeWidth="2.2"
         />
         <text
           x={HUB.x - 22}
           y={HUB.y + 44}
-          fill="rgba(237,239,242,0.65)"
-          fontFamily="var(--font-mono)"
+          fill="#49535e"
+          fontFamily="var(--font-body)"
           fontSize="10"
+          fontWeight="600"
           letterSpacing="1.5"
         >
           DISTRICT CIVIL HOSPITAL
@@ -204,9 +207,10 @@ export function HubSpoke({ className = "" }: { className?: string }) {
         <text
           x={HUB.x - 22}
           y={HUB.y + 58}
-          fill="rgba(237,239,242,0.35)"
-          fontFamily="var(--font-mono)"
+          fill="#9ca3af"
+          fontFamily="var(--font-body)"
           fontSize="9.5"
+          fontWeight="600"
           letterSpacing="1"
         >
           BLOOD BANK · PHARMACY

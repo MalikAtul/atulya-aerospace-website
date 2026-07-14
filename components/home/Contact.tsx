@@ -1,48 +1,34 @@
-import { BriefingForm } from "@/components/BriefingForm";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { CONTACT } from "@/lib/content";
 
 export function Contact() {
   return (
-    <section id="contact" className="relative overflow-hidden py-28 md:py-40" aria-label="Contact">
-      <div aria-hidden className="absolute inset-0 glow-saffron" />
-      <div className="container-x relative grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
-        <div>
-          <SectionHeading
-            index="06"
-            kicker="Engage"
-            lines={CONTACT.headline}
-            lead={CONTACT.intro}
-          />
-
-          <Reveal delay={0.15}>
-            <dl className="mt-12 divide-y divide-line border-y border-line">
-              {CONTACT.rows.map((row) => (
-                <div key={row.label} className="grid grid-cols-[110px_1fr] items-baseline gap-4 py-5">
-                  <dt className="label-sm text-faint">{row.label}</dt>
-                  <dd>
-                    {"href" in row && row.href ? (
-                      <a
-                        href={row.href}
-                        className="text-[0.95rem] text-ink underline decoration-saffron/50 underline-offset-4 transition-colors hover:text-saffron"
-                      >
-                        {row.value}
-                      </a>
-                    ) : (
-                      <span className="text-[0.95rem] text-ink">{row.value}</span>
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </div>
+    <section id="contact" className="bg-base py-28 md:py-36" aria-label="Contact">
+      <div className="container-x flex flex-col items-center text-center">
+        <Reveal>
+          <h2 className="display max-w-4xl text-[clamp(2.2rem,5.4vw,4rem)] text-sovereign">
+            {CONTACT.headline}
+          </h2>
+        </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="border border-line bg-surface/60 p-8 backdrop-blur-sm md:p-12">
-            <BriefingForm />
-          </div>
+          <p className="mt-7 text-[1rem] text-slate">
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="underline decoration-line underline-offset-4 transition-colors duration-300 hover:text-sovereign"
+            >
+              {CONTACT.email}
+            </a>
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.18}>
+          <a
+            href={`mailto:${CONTACT.email}`}
+            className="mt-10 inline-block bg-strike px-10 py-4 text-[0.95rem] font-semibold text-white transition-colors duration-300 hover:bg-strike-deep"
+          >
+            {CONTACT.cta}
+          </a>
         </Reveal>
       </div>
     </section>

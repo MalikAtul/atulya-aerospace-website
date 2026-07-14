@@ -1,32 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Noto_Sans_Devanagari, Space_Grotesk } from "next/font/google";
+import { Archivo, Inter } from "next/font/google";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SITE } from "@/lib/content";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  style: ["normal", "italic"],
+  variable: "--font-archivo",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap",
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
-const devanagari = Noto_Sans_Devanagari({
-  subsets: ["devanagari"],
-  weight: ["500", "600", "700"],
-  variable: "--font-devanagari-sans",
   display: "swap",
 });
 
@@ -66,8 +54,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#06070a",
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
 };
 
 const JSON_LD = {
@@ -81,6 +69,8 @@ const JSON_LD = {
   founder: { "@type": "Person", name: "Atul Malik" },
   address: {
     "@type": "PostalAddress",
+    addressLocality: "Gohana",
+    addressRegion: "Haryana",
     addressCountry: "IN",
   },
   sameAs: [],
@@ -88,14 +78,11 @@ const JSON_LD = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrains.variable} ${devanagari.variable}`}
-    >
+    <html lang="en" className={`${archivo.variable} ${inter.variable}`}>
       <body>
         <a
           href="#main"
-          className="label-sm sr-only z-[100] bg-saffron px-5 py-3 text-void focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="label-sm sr-only z-[100] bg-sovereign px-5 py-3 text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Skip to content
         </a>

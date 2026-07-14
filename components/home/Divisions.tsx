@@ -1,80 +1,64 @@
 import Link from "next/link";
-import { Schematic } from "@/components/graphics/Schematics";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { DIVISIONS } from "@/lib/content";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
+import { DIVISIONS, DIVISIONS_SECTION } from "@/lib/content";
 
 const ACCENT = {
-  saffron: {
-    text: "text-saffron",
-    border: "hover:border-saffron/60",
-    bar: "bg-saffron",
-  },
-  chakra: {
-    text: "text-chakra",
-    border: "hover:border-chakra/60",
-    bar: "bg-chakra",
-  },
-  leaf: {
-    text: "text-leaf",
-    border: "hover:border-leaf/60",
-    bar: "bg-leaf",
-  },
+  defense: { text: "text-defense", bar: "bg-defense" },
+  deliver: { text: "text-deliver", bar: "bg-deliver" },
+  medfly: { text: "text-medfly", bar: "bg-medfly" },
 } as const;
 
 export function Divisions() {
   return (
-    <section id="divisions" className="border-b border-line py-28 md:py-40" aria-label="Divisions">
+    <section id="divisions" className="bg-base py-24 md:py-32" aria-label="Divisions">
       <div className="container-x">
-        <SectionHeading
-          index="02"
-          kicker="The Divisions"
-          lines={["One stack.", "Three missions."]}
-          lead="Three divisions under one parent company, flying one core technology stack — each aimed at a national problem big enough to justify the company on its own."
-        />
+        <Reveal>
+          <h2 className="display text-[clamp(2.2rem,5vw,3.6rem)] text-sovereign">
+            {DIVISIONS_SECTION.title}
+          </h2>
+        </Reveal>
 
-        <RevealGroup className="mt-16 grid gap-6 md:mt-24 lg:grid-cols-3" stagger={0.14}>
+        <RevealGroup className="mt-14 grid gap-6 md:mt-20 lg:grid-cols-3" stagger={0.12}>
           {DIVISIONS.map((d) => {
             const a = ACCENT[d.accent];
             return (
               <RevealItem key={d.code} className="h-full">
                 <Link
+                  id={d.anchor}
                   href={d.slug}
-                  className={`group relative flex h-full flex-col border border-line bg-surface/50 transition-[border-color,transform] duration-500 hover:-translate-y-1.5 ${a.border}`}
+                  className="group relative flex h-full scroll-mt-24 flex-col border border-line bg-base pt-[6px] transition-[box-shadow,transform] duration-300 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_-18px_rgba(10,10,10,0.25)]"
                 >
-                  <span aria-hidden className={`absolute left-0 top-0 h-[3px] w-14 ${a.bar}`} />
+                  {/* Division top border: 4px, thickens to 6px on hover */}
+                  <span
+                    aria-hidden
+                    className={`absolute inset-x-[-1px] top-[-1px] h-[4px] transition-[height] duration-300 group-hover:h-[6px] ${a.bar}`}
+                  />
 
-                  <div className="flex items-start justify-between p-7 pb-0 md:p-9 md:pb-0">
-                    <div>
-                      <p className={`label-sm ${a.text}`}>Division {d.code}</p>
-                      <h3 className="display mt-3 text-[2rem] md:text-[2.3rem]">{d.name}</h3>
-                      <p className="label-sm mt-3 text-faint">{d.sector}</p>
-                    </div>
-                  </div>
+                  <div className="flex flex-1 flex-col p-7 md:p-8">
+                    <h3 className={`display text-[1.7rem] md:text-[1.85rem] ${a.text}`}>
+                      {d.fullName}
+                    </h3>
+                    <p className="label-sm mt-3 text-slate">{d.sector}</p>
 
-                  <div className="px-7 pt-6 md:px-9">
-                    <Schematic type={d.schematic} accent={d.accent} className="w-full opacity-90" />
-                  </div>
-
-                  <div className="flex flex-1 flex-col p-7 pt-6 md:p-9 md:pt-6">
-                    <p className="text-[0.95rem] font-medium leading-relaxed text-ink">{d.tagline}</p>
-                    <p className="mt-4 text-[0.88rem] leading-relaxed text-dim">{d.mandate}</p>
+                    <p className="mt-6 text-[0.95rem] font-semibold leading-relaxed text-slate">
+                      {d.tagline}
+                    </p>
 
                     <ul className="mt-6 space-y-2.5 border-t border-line pt-6">
                       {d.systems.slice(0, 4).map((s) => (
-                        <li key={s} className="flex items-center gap-3 text-[0.84rem] text-dim">
-                          <span aria-hidden className={`h-1 w-1 rotate-45 ${a.bar}`} />
+                        <li key={s} className="flex items-center gap-3 text-[0.88rem] text-slate">
+                          <span aria-hidden className={`h-1 w-3 shrink-0 ${a.bar}`} />
                           {s}
                         </li>
                       ))}
                     </ul>
 
                     <div className="mt-auto flex items-center justify-between gap-4 pt-8">
-                      <p className="label-sm text-faint">{d.status}</p>
+                      <p className="label-sm text-slate">{d.status}</p>
                       <span
-                        className={`label-sm flex items-center gap-2 ${a.text} transition-transform duration-300 group-hover:translate-x-1`}
+                        className={`label-sm flex items-center gap-2 transition-transform duration-300 group-hover:translate-x-1 ${a.text}`}
                       >
-                        Enter <span aria-hidden>→</span>
+                        Explore <span aria-hidden>→</span>
                       </span>
                     </div>
                   </div>

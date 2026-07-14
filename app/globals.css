@@ -1,64 +1,42 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Palette ─────────────────────────────────────────── */
-  --color-void: #06070a;
-  --color-surface: #0b0d12;
-  --color-raised: #10141b;
-  --color-panel: #0d1017;
+  /* ── Brand bible palette ─────────────────────────────── */
+  --color-base: #ffffff;
+  --color-sovereign: #0b3d91;
+  --color-strike: #c8102e;
+  --color-strike-deep: #a00d25;
+  --color-slate: #49535e;
+  --color-onyx: #0a0a0a;
 
-  --color-line: rgba(237, 239, 242, 0.08);
-  --color-line-strong: rgba(237, 239, 242, 0.18);
+  /* Division colors */
+  --color-defense: #c8102e;
+  --color-deliver: #1e6fd9;
+  --color-medfly: #00843d;
 
-  --color-ink: #edeff2;
-  --color-dim: #99a1ad;
-  --color-faint: #5d6572;
-
-  /* Saffron — the brand */
-  --color-saffron: #ff8e1f;
-  --color-saffron-bright: #ffb347;
-  --color-saffron-deep: #a85e0a;
-
-  /* Division accents — a quiet tricolour */
-  --color-chakra: #4da3ff;
-  --color-leaf: #34c26b;
+  /* Supporting neutrals */
+  --color-steel: #9ca3af; /* body text on dark sections */
+  --color-line: #e8e8e8; /* light structural borders */
+  --color-grid: #f0f1f2; /* blueprint grid strokes */
 
   /* ── Type ────────────────────────────────────────────── */
-  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-display: var(--font-archivo), system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
-  --font-devanagari: var(--font-devanagari-sans), system-ui, sans-serif;
 
   /* ── Motion ──────────────────────────────────────────── */
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --animate-sweep: sweep 6s linear infinite;
-  --animate-marquee: marquee 42s linear infinite;
-  --animate-blip: blip 3s ease-out infinite;
-  --animate-dash-flow: dash-flow 1.6s linear infinite;
-  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+  --animate-rise: rise 0.9s var(--ease-out-expo) both;
 
-  @keyframes sweep {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @keyframes blip {
-    0% { opacity: 0; transform: scale(0.4); }
-    12% { opacity: 1; transform: scale(1); }
-    70% { opacity: 0.55; }
-    100% { opacity: 0; transform: scale(1.35); }
-  }
-  @keyframes dash-flow {
-    from { stroke-dashoffset: 24; }
-    to { stroke-dashoffset: 0; }
-  }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 142, 31, 0.45); }
-    50% { opacity: 0.72; box-shadow: 0 0 0 6px rgba(255, 142, 31, 0); }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
@@ -66,12 +44,12 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  scroll-padding-top: 88px;
 }
 
 body {
-  background: var(--color-void);
-  color: var(--color-ink);
+  background: var(--color-base);
+  color: var(--color-slate);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -79,19 +57,18 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 142, 31, 0.9);
-  color: #06070a;
+  background: var(--color-sovereign);
+  color: #ffffff;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(237, 239, 242, 0.18) transparent;
+  scrollbar-color: rgba(73, 83, 94, 0.35) transparent;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-saffron);
+  outline: 2px solid var(--color-sovereign);
   outline-offset: 3px;
-  border-radius: 1px;
 }
 
 /* ── Utilities ─────────────────────────────────────────── */
@@ -99,120 +76,44 @@ body {
 @utility container-x {
   margin-inline: auto;
   width: 100%;
-  max-width: 1360px;
-  padding-inline: clamp(1.25rem, 4vw, 3.5rem);
+  max-width: 1240px;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
 }
 
+/* Spaced-caps utility label — Inter SemiBold */
 @utility label {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 @utility label-sm {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 0.625rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
+/* Every headline: Archivo ExtraBold Italic */
 @utility display {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 0.92;
-  text-transform: uppercase;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  /* italic glyphs overhang their advance width — keep them unclipped */
+  padding-inline-end: 0.08em;
 }
 
-@utility text-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(237, 239, 242, 0.34);
-}
-
-@utility text-outline-saffron {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 142, 31, 0.6);
-}
-
-/* Fine blueprint grid */
+/* Engineering blueprint grid — very light gray */
 @utility bg-blueprint {
   background-image:
-    linear-gradient(rgba(237, 239, 242, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(237, 239, 242, 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
-
-@utility bg-blueprint-fine {
-  background-image:
-    linear-gradient(rgba(237, 239, 242, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(237, 239, 242, 0.025) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-
-/* Dotted survey grid */
-@utility bg-survey {
-  background-image: radial-gradient(rgba(237, 239, 242, 0.12) 1px, transparent 1px);
-  background-size: 26px 26px;
-}
-
-/* Saffron → white → green hairline, the quietest possible flag */
-@utility hairline-tricolor {
-  height: 1px;
-  border: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 142, 31, 0.9) 0%,
-    rgba(255, 142, 31, 0.35) 34%,
-    rgba(237, 239, 242, 0.28) 50%,
-    rgba(52, 194, 107, 0.35) 66%,
-    rgba(52, 194, 107, 0.9) 100%
-  );
-}
-
-@utility glow-saffron {
-  background: radial-gradient(
-    ellipse 60% 50% at 50% 0%,
-    rgba(255, 142, 31, 0.13),
-    transparent 70%
-  );
-}
-
-/* Light sweep across primary CTAs on hover */
-@utility btn-sheen {
-  position: relative;
-  overflow: hidden;
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    transform: translateX(-130%) skewX(-18deg);
-    background: linear-gradient(
-      100deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.3) 50%,
-      transparent 70%
-    );
-    transition: transform 0.8s var(--ease-out-expo);
-  }
-  &:hover::after {
-    transform: translateX(130%) skewX(-18deg);
-  }
-}
-
-/* Animated underline for nav links */
-@utility nav-underline {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0% 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size 0.45s var(--ease-out-expo);
-  &:hover {
-    background-size: 100% 1px;
-  }
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
 /* ── Reduced motion ───────────────────────────────────── */

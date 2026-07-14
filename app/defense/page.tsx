@@ -18,7 +18,7 @@ export default function DefensePage() {
       <DivisionHero
         code="01"
         title="Defense"
-        accent="saffron"
+        accent="defense"
         sector="B2G"
         status="PROTOTYPE TRACK → IDEX"
         tagline="Autonomous airpower for the forces that hold the line."
@@ -28,7 +28,7 @@ export default function DefensePage() {
       />
 
       {/* Mandate numbers */}
-      <section className="border-b border-line bg-surface/40" aria-label="Mandate">
+      <section className="border-b border-line bg-base" aria-label="Mandate">
         <RevealGroup className="container-x grid grid-cols-2 lg:grid-cols-4">
           {page.stats.map((s, i) => (
             <RevealItem
@@ -37,38 +37,39 @@ export default function DefensePage() {
                 i >= 2 ? "border-t lg:border-t-0" : ""
               } ${i >= 1 ? "lg:border-l" : ""}`}
             >
-              <p className="display text-[1.7rem] text-ink sm:text-[2.2rem]">{s.value}</p>
-              <p className="label-sm mt-3 text-dim">{s.label}</p>
+              <p className="display text-[1.7rem] text-sovereign sm:text-[2.2rem]">{s.value}</p>
+              <p className="label-sm mt-3 text-slate">{s.label}</p>
             </RevealItem>
           ))}
         </RevealGroup>
       </section>
 
       {/* Systems index */}
-      <section className="border-b border-line py-28 md:py-36" aria-label="Systems">
+      <section className="border-b border-line bg-base py-24 md:py-32" aria-label="Systems">
         <div className="container-x">
           <SectionHeading
             index="AD"
             kicker="Systems Index"
             lines={["Six systems.", "One doctrine."]}
+            accent="var(--color-defense)"
             lead="Every AD-series airframe shares the Atulya autonomy core, encrypted mesh comms, and indigenous manufacturing path — six answers to six different threats, from one stack."
           />
 
-          <RevealGroup className="mt-16 grid gap-px border border-line bg-line md:mt-24 md:grid-cols-2" stagger={0.1}>
+          <RevealGroup className="mt-16 grid gap-px border border-line bg-line md:mt-20 md:grid-cols-2" stagger={0.1}>
             {page.systems.map((sys) => (
-              <RevealItem key={sys.designation} className="group bg-void p-8 transition-colors duration-500 hover:bg-surface md:p-10">
+              <RevealItem key={sys.designation} className="group bg-base p-8 md:p-10">
                 <div className="flex items-baseline justify-between gap-4">
-                  <p className="label text-saffron">{sys.designation}</p>
-                  <p className="label-sm text-faint">{sys.className}</p>
+                  <p className="display text-[1rem] text-defense">{sys.designation}</p>
+                  <p className="label-sm text-slate">{sys.className}</p>
                 </div>
-                <div className="mt-6 border border-line bg-void/60 px-4 py-2 transition-colors duration-500 group-hover:border-line-strong">
-                  <Schematic type={sys.schematic} accent="saffron" className="w-full" />
+                <div className="mt-6 border border-line px-4 py-2 transition-colors duration-300 group-hover:border-defense/40">
+                  <Schematic type={sys.schematic} className="w-full" />
                 </div>
-                <h3 className="display mt-7 text-[1.5rem]">{sys.name}</h3>
-                <p className="mt-4 text-[0.92rem] leading-relaxed text-dim">{sys.description}</p>
+                <h3 className="display mt-7 text-[1.4rem] text-sovereign">{sys.name}</h3>
+                <p className="mt-4 text-[0.92rem] leading-relaxed text-slate">{sys.description}</p>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {sys.chips.map((chip) => (
-                    <span key={chip} className="label-sm border border-line px-3 py-2 text-faint">
+                    <span key={chip} className="label-sm border border-line px-3 py-2 text-slate">
                       {chip}
                     </span>
                   ))}
@@ -80,19 +81,21 @@ export default function DefensePage() {
       </section>
 
       {/* Flagship: swarm interceptor */}
-      <section className="relative overflow-hidden border-b border-line bg-surface/30 py-28 md:py-36" aria-label="Flagship concept">
-        <div aria-hidden className="absolute inset-0 bg-survey opacity-30" />
+      <section
+        className="relative overflow-hidden border-b border-line bg-base bg-blueprint py-24 md:py-32"
+        aria-label="Flagship concept"
+      >
         <div className="container-x relative">
           <Reveal>
-            <p className="label flex items-center gap-4 text-saffron">
-              <span aria-hidden className="h-px w-10 bg-saffron" />
+            <p className="label flex items-center gap-4 text-defense">
+              <span aria-hidden className="h-[3px] w-10 bg-defense" />
               {page.swarm.kicker}
             </p>
           </Reveal>
           <Reveal delay={0.08}>
-            <h2 className="display mt-8 max-w-5xl text-[clamp(1.9rem,4.4vw,3.4rem)]">
+            <h2 className="display mt-8 max-w-5xl text-[clamp(1.8rem,4vw,3rem)] text-sovereign">
               {page.swarm.headline[0]}
-              <span className="text-saffron"> {page.swarm.headline[1]}</span>
+              <span className="text-defense"> {page.swarm.headline[1]}</span>
             </h2>
           </Reveal>
 
@@ -100,43 +103,44 @@ export default function DefensePage() {
             <RevealGroup className="space-y-6" stagger={0.12}>
               {page.swarm.body.map((para) => (
                 <RevealItem key={para.slice(0, 20)}>
-                  <p className="max-w-xl text-[0.98rem] leading-relaxed text-dim">{para}</p>
+                  <p className="max-w-xl text-[0.98rem] leading-relaxed text-slate">{para}</p>
                 </RevealItem>
               ))}
               <RevealItem>
-                <p className="label border-l-2 border-saffron pl-5 leading-relaxed text-ink">
+                <p className="label border-l-2 border-defense pl-5 leading-relaxed text-onyx">
                   {page.swarm.closer}
                 </p>
               </RevealItem>
             </RevealGroup>
             <Reveal delay={0.15}>
-              <div className="border border-line bg-void p-4">
-                <Schematic type="interceptor" accent="saffron" className="w-full" />
+              <div className="border border-line bg-base p-4">
+                <Schematic type="interceptor" className="w-full" />
               </div>
             </Reveal>
           </div>
 
           <Reveal className="mt-14">
-            <StepGrid steps={page.swarm.steps} accent="saffron" columnsClass="md:grid-cols-3" />
+            <StepGrid steps={page.swarm.steps} accent="defense" columnsClass="md:grid-cols-3" />
           </Reveal>
         </div>
       </section>
 
       {/* Procurement pathway */}
-      <section className="border-b border-line py-28 md:py-36" aria-label="Procurement pathway">
+      <section className="bg-base py-24 md:py-32" aria-label="Procurement pathway">
         <div className="container-x">
           <SectionHeading
             index="02"
             kicker={page.pathway.title}
             lines={["From prototype", "to induction."]}
+            accent="var(--color-defense)"
           />
           <Reveal className="mt-14">
-            <StepGrid steps={page.pathway.steps.map((s) => ({ label: s.phase, text: s.text }))} accent="saffron" />
+            <StepGrid steps={page.pathway.steps.map((s) => ({ label: s.phase, text: s.text }))} accent="defense" />
           </Reveal>
         </div>
       </section>
 
-      <DivisionCTA current="/defense" accent="saffron" />
+      <DivisionCTA current="/defense" />
     </>
   );
 }

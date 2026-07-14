@@ -4,7 +4,7 @@ type SectionHeadingProps = {
   index?: string;
   kicker: string;
   lines: readonly string[];
-  /** Which line (0-based) renders dimmed. Default: last line. */
+  /** Which line (0-based) renders in slate instead of sovereign. Default: none. */
   dimFrom?: number;
   lead?: string;
   accent?: string;
@@ -12,8 +12,8 @@ type SectionHeadingProps = {
 };
 
 /**
- * Standard section opener: mono kicker with rule, then a large
- * two-tone display title, optionally followed by a lead paragraph.
+ * Standard section opener: spaced-caps kicker with an accent rule,
+ * then an Archivo ExtraBold Italic title, optionally with a lead.
  */
 export function SectionHeading({
   index,
@@ -21,20 +21,20 @@ export function SectionHeading({
   lines,
   dimFrom,
   lead,
-  accent = "var(--color-saffron)",
+  accent = "var(--color-sovereign)",
   className = "",
 }: SectionHeadingProps) {
-  const dimStart = dimFrom ?? lines.length - 1;
+  const dimStart = dimFrom ?? lines.length;
   return (
     <div className={className}>
       <Reveal>
         <div className="flex items-center gap-4">
-          <span aria-hidden className="h-px w-10" style={{ background: accent }} />
-          <p className="label text-dim">
+          <span aria-hidden className="h-[3px] w-10" style={{ background: accent }} />
+          <p className="label text-slate">
             {index ? (
               <>
                 <span style={{ color: accent }}>{index}</span>
-                <span className="mx-2 text-faint">/</span>
+                <span className="mx-2">/</span>
               </>
             ) : null}
             {kicker}
@@ -42,9 +42,9 @@ export function SectionHeading({
         </div>
       </Reveal>
       <Reveal delay={0.08}>
-        <h2 className="display mt-6 text-[clamp(2.6rem,6.2vw,5.2rem)]">
+        <h2 className="display mt-6 text-[clamp(2.1rem,4.8vw,3.6rem)] text-sovereign">
           {lines.map((line, i) => (
-            <span key={line} className={`block ${i >= dimStart && lines.length > 1 ? "text-faint" : ""}`}>
+            <span key={line} className={`block ${i >= dimStart ? "text-slate" : ""}`}>
               {line}
             </span>
           ))}
@@ -52,7 +52,7 @@ export function SectionHeading({
       </Reveal>
       {lead ? (
         <Reveal delay={0.16}>
-          <p className="mt-7 max-w-2xl text-[0.98rem] leading-relaxed text-dim">{lead}</p>
+          <p className="mt-6 max-w-2xl text-[0.98rem] leading-relaxed text-slate">{lead}</p>
         </Reveal>
       ) : null}
     </div>

@@ -23,9 +23,10 @@ export type SchematicType =
   | "cargo"
   | "med";
 
-const INK = "rgba(237,239,242,0.78)";
-const DIM = "rgba(237,239,242,0.32)";
-const FAINT = "rgba(237,239,242,0.18)";
+/* Annotation grays — engineering-drawing neutrals on white */
+const DIM = "#9ca3af";
+const FAINT = "#d7dbdf";
+const NOTE = "#49535e";
 
 /* ── Small drafting helpers ─────────────────────────────────────────── */
 
@@ -34,7 +35,7 @@ function Note({
   y,
   children,
   anchor = "start",
-  color = "rgba(237,239,242,0.5)",
+  color = NOTE,
 }: {
   x: number;
   y: number;
@@ -49,8 +50,9 @@ function Note({
       y={y}
       textAnchor={anchor}
       fill={color}
-      fontFamily="var(--font-mono)"
+      fontFamily="var(--font-body)"
       fontSize="9.5"
+      fontWeight="600"
       letterSpacing="1.5"
     >
       {children}
@@ -73,9 +75,10 @@ function DimH({ x1, x2, y, label }: { x1: number; x2: number; y: number; label: 
         x={(x1 + x2) / 2}
         y={y + 14}
         textAnchor="middle"
-        fill="rgba(237,239,242,0.5)"
-        fontFamily="var(--font-mono)"
+        fill={NOTE}
+        fontFamily="var(--font-body)"
         fontSize="9.5"
+        fontWeight="600"
         letterSpacing="1.5"
       >
         {label}
@@ -101,7 +104,7 @@ function CenterLine({ x1, y1, x2, y2 }: { x1: number; y1: number; x2: number; y2
 }
 
 /** Rotor disc: dashed swept circle + blade + hub. */
-function Rotor({ cx, cy, r = 28 }: { cx: number; cy: number; r?: number }) {
+function Rotor({ cx, cy, r = 28, accent }: { cx: number; cy: number; r?: number; accent: string }) {
   return (
     <g>
       <circle
@@ -114,8 +117,8 @@ function Rotor({ cx, cy, r = 28 }: { cx: number; cy: number; r?: number }) {
         strokeDasharray="4 5"
         fill="none"
       />
-      <line data-anim="draw" x1={cx - r + 7} y1={cy} x2={cx + r - 7} y2={cy} stroke={INK} strokeWidth="1.1" />
-      <circle data-anim="fade" cx={cx} cy={cy} r={3} fill={INK} />
+      <line data-anim="draw" x1={cx - r + 7} y1={cy} x2={cx + r - 7} y2={cy} stroke={accent} strokeWidth="1.1" />
+      <circle data-anim="fade" cx={cx} cy={cy} r={3} fill={accent} />
     </g>
   );
 }
@@ -141,12 +144,12 @@ function QuadFrame({ accent }: { accent: string }) {
           y1={120}
           x2={r.x}
           y2={r.y}
-          stroke={INK}
+          stroke={accent}
           strokeWidth="1.2"
         />
       ))}
       {rotors.map((r) => (
-        <Rotor key={`rotor-${r.x}-${r.y}`} cx={r.x} cy={r.y} />
+        <Rotor key={`rotor-${r.x}-${r.y}`} cx={r.x} cy={r.y} accent={accent} />
       ))}
       {/* Body */}
       <rect
@@ -156,9 +159,9 @@ function QuadFrame({ accent }: { accent: string }) {
         width={48}
         height={48}
         rx={8}
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
       {/* Sensor payload */}
       <rect
@@ -195,7 +198,7 @@ function Tiltrotor({ accent, payload }: { accent: string; payload: "cargo" | "me
       <path
         data-anim="draw"
         d="M48 82 L292 82 L292 89 L48 89 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
         fill="none"
       />
@@ -208,11 +211,11 @@ function Tiltrotor({ accent, payload }: { accent: string; payload: "cargo" | "me
         width={16}
         height={34}
         rx={5}
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.2"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
-      <line data-anim="draw" x1={62} y1={68} x2={62} y2={60} stroke={INK} strokeWidth="1.1" />
+      <line data-anim="draw" x1={62} y1={68} x2={62} y2={60} stroke={accent} strokeWidth="1.1" />
       <ellipse
         data-anim="fade"
         cx={62}
@@ -224,8 +227,8 @@ function Tiltrotor({ accent, payload }: { accent: string; payload: "cargo" | "me
         strokeDasharray="4 5"
         fill="none"
       />
-      <line data-anim="draw" x1={38} y1={58} x2={86} y2={58} stroke={INK} strokeWidth="1.1" />
-      <circle data-anim="fade" cx={62} cy={58} r={2.4} fill={INK} />
+      <line data-anim="draw" x1={38} y1={58} x2={86} y2={58} stroke={accent} strokeWidth="1.1" />
+      <circle data-anim="fade" cx={62} cy={58} r={2.4} fill={accent} />
       <circle data-anim="fade" cx={62} cy={85.5} r={2.4} fill={accent} />
 
       {/* Right nacelle — CRUISE: rotor disc forward */}
@@ -236,9 +239,9 @@ function Tiltrotor({ accent, payload }: { accent: string; payload: "cargo" | "me
         width={34}
         height={16}
         rx={5}
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.2"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
       <circle
         data-anim="fade"
@@ -250,8 +253,8 @@ function Tiltrotor({ accent, payload }: { accent: string; payload: "cargo" | "me
         strokeDasharray="4 5"
         fill="none"
       />
-      <line data-anim="draw" x1={260} y1={85.5} x2={298} y2={85.5} stroke={INK} strokeWidth="1.1" />
-      <circle data-anim="fade" cx={279} cy={85.5} r={2.4} fill={INK} />
+      <line data-anim="draw" x1={260} y1={85.5} x2={298} y2={85.5} stroke={accent} strokeWidth="1.1" />
+      <circle data-anim="fade" cx={279} cy={85.5} r={2.4} fill={accent} />
       <circle data-anim="fade" cx={279} cy={85.5} r={5} stroke={accent} strokeWidth="1" fill="none" />
 
       {/* Tilt arc: hover position → cruise position */}
@@ -265,13 +268,13 @@ function Tiltrotor({ accent, payload }: { accent: string; payload: "cargo" | "me
       <path data-anim="draw" d="M311 84 L305 77 M311 84 L303 87" stroke={accent} strokeWidth="1.1" />
 
       {/* Tail fin + fuselage */}
-      <path data-anim="draw" d="M165 70 L170 50 L175 70" stroke={INK} strokeWidth="1.2" fill="none" />
+      <path data-anim="draw" d="M165 70 L170 50 L175 70" stroke={accent} strokeWidth="1.2" fill="none" />
       <path
         data-anim="draw"
         d="M170 64 C181 64 186 70 186 78 L186 118 C186 127 181 132 170 132 C159 132 154 127 154 118 L154 78 C154 70 159 64 170 64 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
 
       {/* Winch cable + sealed payload pod */}
@@ -295,7 +298,7 @@ function Tiltrotor({ accent, payload }: { accent: string; payload: "cargo" | "me
           rx={3}
           stroke={accent}
           strokeWidth="1.3"
-          fill="var(--color-void)"
+          fill="var(--color-base)"
         />
         {payload === "cargo" ? (
           <path
@@ -372,26 +375,26 @@ function Hale({ accent }: { accent: string }) {
       <path
         data-anim="draw"
         d="M26 98 L132 91 L208 91 L314 98 L314 104 L208 108 L132 108 L26 104 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
         fill="none"
       />
       {/* Winglets */}
-      <path data-anim="draw" d="M26 98 L18 88" stroke={INK} strokeWidth="1.2" />
-      <path data-anim="draw" d="M314 98 L322 88" stroke={INK} strokeWidth="1.2" />
+      <path data-anim="draw" d="M26 98 L18 88" stroke={accent} strokeWidth="1.2" />
+      <path data-anim="draw" d="M314 98 L322 88" stroke={accent} strokeWidth="1.2" />
       {/* Fuselage */}
       <path
         data-anim="draw"
         d="M170 28 C176 28 178 38 178 50 L177 156 C177 166 174 172 170 172 C166 172 163 166 163 156 L162 50 C162 38 164 28 170 28 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
       {/* Tailplane */}
       <path
         data-anim="draw"
         d="M136 166 L204 166 L198 176 L142 176 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.2"
         fill="none"
       />
@@ -406,7 +409,7 @@ function Hale({ accent }: { accent: string }) {
         strokeDasharray="4 5"
         fill="none"
       />
-      <line data-anim="draw" x1={159} y1={188} x2={181} y2={188} stroke={INK} strokeWidth="1.1" />
+      <line data-anim="draw" x1={159} y1={188} x2={181} y2={188} stroke={accent} strokeWidth="1.1" />
       {/* Sensor turret */}
       <circle data-anim="draw" cx={170} cy={62} r={7} stroke={accent} strokeWidth="1.3" fill="none" />
       <circle data-anim="fade" cx={170} cy={62} r={2} fill={accent} />
@@ -427,7 +430,7 @@ function Interceptor({ accent }: { accent: string }) {
         y={148}
         width={92}
         height={40}
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
         fill="none"
       />
@@ -448,15 +451,15 @@ function Interceptor({ accent }: { accent: string }) {
       <path
         data-anim="draw"
         d="M150 160 L262 160 L288 168 L262 176 L150 176 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
       {/* Deployed fins */}
-      <path data-anim="draw" d="M168 160 L150 138" stroke={INK} strokeWidth="1.2" />
-      <path data-anim="draw" d="M168 176 L150 198" stroke={INK} strokeWidth="1.2" />
-      <path data-anim="draw" d="M244 160 L232 146" stroke={INK} strokeWidth="1.1" />
-      <path data-anim="draw" d="M244 176 L232 190" stroke={INK} strokeWidth="1.1" />
+      <path data-anim="draw" d="M168 160 L150 138" stroke={accent} strokeWidth="1.2" />
+      <path data-anim="draw" d="M168 176 L150 198" stroke={accent} strokeWidth="1.2" />
+      <path data-anim="draw" d="M244 160 L232 146" stroke={accent} strokeWidth="1.1" />
+      <path data-anim="draw" d="M244 176 L232 190" stroke={accent} strokeWidth="1.1" />
       {/* RF broadcast field */}
       {[30, 48, 66].map((r, i) => (
         <path
@@ -512,9 +515,9 @@ function CrankedDelta({ accent }: { accent: string }) {
            L 34 193 L 34 186
            L 146 112
            C 157 78 165 42 170 20 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
       {/* Fuselage lines flowing into the wing */}
       <path data-anim="draw" d="M160 70 C158 110 157 150 156 193" stroke={DIM} strokeWidth="0.9" fill="none" />
@@ -539,7 +542,7 @@ function CrankedDelta({ accent }: { accent: string }) {
       <line data-anim="draw" x1={48} y1={185} x2={128} y2={185} stroke={DIM} strokeWidth="0.9" />
       <line data-anim="draw" x1={212} y1={185} x2={292} y2={185} stroke={DIM} strokeWidth="0.9" />
       {/* Exhaust */}
-      <path data-anim="draw" d="M155 206 L155 214 M185 206 L185 214" stroke={INK} strokeWidth="1.1" />
+      <path data-anim="draw" d="M155 206 L155 214 M185 206 L185 214" stroke={accent} strokeWidth="1.1" />
       {[163, 170, 177].map((x, i) => (
         <line
           key={x}
@@ -569,15 +572,15 @@ function Loiter({ accent }: { accent: string }) {
       <path
         data-anim="draw"
         d="M170 30 C174 30 176 40 176 52 L175 186 C175 196 173 202 170 202 C167 202 165 196 165 186 L164 52 C164 40 166 30 170 30 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
       {/* Main wing */}
       <path
         data-anim="draw"
         d="M64 90 L276 90 L276 97 L64 97 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.2"
         fill="none"
       />
@@ -585,7 +588,7 @@ function Loiter({ accent }: { accent: string }) {
       <path
         data-anim="draw"
         d="M118 168 L222 168 L222 174 L118 174 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.1"
         fill="none"
       />
@@ -622,7 +625,7 @@ function RocketInterdictor({ accent }: { accent: string }) {
         y={150}
         width={78}
         height={36}
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
         fill="none"
       />
@@ -652,9 +655,9 @@ function RocketInterdictor({ accent }: { accent: string }) {
       <path
         data-anim="draw"
         d="M136 152 L254 152 C 272 153.5 284 160 291 168 C 284 176 272 182.5 254 182 L136 182 C 131 182 128 176 128 168 C 128 160 131 152 136 152 Z"
-        stroke={INK}
+        stroke={accent}
         strokeWidth="1.3"
-        fill="var(--color-void)"
+        fill="var(--color-base)"
       />
       {/* Body panel seams */}
       <line data-anim="draw" x1={200} y1={152} x2={200} y2={182} stroke={DIM} strokeWidth="0.9" />
@@ -665,14 +668,14 @@ function RocketInterdictor({ accent }: { accent: string }) {
       <Note x={336} y={205} anchor="end">SEEKER NOSE</Note>
 
       {/* Tail motor fins — top & bottom visible in profile */}
-      <path data-anim="draw" d="M138 152 L132 130 L156 130 L150 152 Z" stroke={INK} strokeWidth="1.1" fill="none" />
-      <rect data-anim="draw" x={130} y={122} width={28} height={8} rx={3} stroke={INK} strokeWidth="1.1" fill="var(--color-void)" />
+      <path data-anim="draw" d="M138 152 L132 130 L156 130 L150 152 Z" stroke={accent} strokeWidth="1.1" fill="none" />
+      <rect data-anim="draw" x={130} y={122} width={28} height={8} rx={3} stroke={accent} strokeWidth="1.1" fill="var(--color-base)" />
       <ellipse data-anim="fade" cx={160} cy={126} rx={2.8} ry={9} stroke={DIM} strokeWidth="1" strokeDasharray="3 3" fill="none" />
-      <circle data-anim="fade" cx={160} cy={126} r={1.6} fill={INK} />
-      <path data-anim="draw" d="M138 182 L132 204 L156 204 L150 182 Z" stroke={INK} strokeWidth="1.1" fill="none" />
-      <rect data-anim="draw" x={130} y={204} width={28} height={8} rx={3} stroke={INK} strokeWidth="1.1" fill="var(--color-void)" />
+      <circle data-anim="fade" cx={160} cy={126} r={1.6} fill={accent} />
+      <path data-anim="draw" d="M138 182 L132 204 L156 204 L150 182 Z" stroke={accent} strokeWidth="1.1" fill="none" />
+      <rect data-anim="draw" x={130} y={204} width={28} height={8} rx={3} stroke={accent} strokeWidth="1.1" fill="var(--color-base)" />
       <ellipse data-anim="fade" cx={160} cy={208} rx={2.8} ry={9} stroke={DIM} strokeWidth="1" strokeDasharray="3 3" fill="none" />
-      <circle data-anim="fade" cx={160} cy={208} r={1.6} fill={INK} />
+      <circle data-anim="fade" cx={160} cy={208} r={1.6} fill={accent} />
 
       {/* Aft-section detail — 4× motors ringed like fins */}
       <circle
@@ -685,7 +688,7 @@ function RocketInterdictor({ accent }: { accent: string }) {
         strokeDasharray="4 6"
         fill="none"
       />
-      <circle data-anim="draw" cx={272} cy={62} r={10} stroke={INK} strokeWidth="1.1" fill="var(--color-void)" />
+      <circle data-anim="draw" cx={272} cy={62} r={10} stroke={accent} strokeWidth="1.1" fill="var(--color-base)" />
       {[45, 135, 225, 315].map((deg) => {
         const rad = (deg * Math.PI) / 180;
         const cos = Math.cos(rad);
@@ -696,9 +699,9 @@ function RocketInterdictor({ accent }: { accent: string }) {
         const my = 62 - 30 * sin;
         return (
           <g key={deg}>
-            <line data-anim="draw" x1={x1} y1={y1} x2={mx} y2={my} stroke={INK} strokeWidth="1" />
+            <line data-anim="draw" x1={x1} y1={y1} x2={mx} y2={my} stroke={accent} strokeWidth="1" />
             <circle data-anim="draw" cx={mx} cy={my} r={7} stroke={accent} strokeWidth="1.1" fill="none" />
-            <circle data-anim="fade" cx={mx} cy={my} r={1.8} fill={INK} />
+            <circle data-anim="fade" cx={mx} cy={my} r={1.8} fill={accent} />
           </g>
         );
       })}
@@ -712,23 +715,27 @@ function RocketInterdictor({ accent }: { accent: string }) {
 
 /* ── Public component ───────────────────────────────────────────────── */
 
-const ACCENTS: Record<string, string> = {
-  saffron: "var(--color-saffron)",
-  chakra: "var(--color-chakra)",
-  leaf: "var(--color-leaf)",
+/** Brand-bible stroke color for each airframe. */
+const STROKE: Record<SchematicType, string> = {
+  hale: "#0b3d91", // HALE surveillance UAV — sovereign
+  interceptor: "#c8102e",
+  jet: "#c8102e", // delta wing strike drone — strike red
+  quad: "#49535e", // chemical detection quadcopter — slate
+  loiter: "#c8102e",
+  intercept: "#c8102e", // rocket interceptor — strike red
+  cargo: "#1e6fd9", // VTOL tiltrotor — Deliver
+  med: "#00843d", // VTOL tiltrotor — MedFly
 };
 
 export function Schematic({
   type,
-  accent = "saffron",
   className = "",
 }: {
   type: SchematicType;
-  accent?: "saffron" | "chakra" | "leaf";
   className?: string;
 }) {
   const ref = useRef<SVGSVGElement>(null);
-  const color = ACCENTS[accent];
+  const color = STROKE[type];
 
   useEffect(() => {
     const svg = ref.current;

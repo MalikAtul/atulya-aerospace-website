@@ -15,21 +15,23 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#06070a",
+          background: "#ffffff",
           padding: 72,
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <svg width="44" height="44" viewBox="0 0 32 32">
-            <path d="M16 2 L30 30 L16 23 L2 30 Z" fill="#ff8e1f" />
-            <path d="M16 10 L23.5 26 L16 22.2 L8.5 26 Z" fill="#06070a" />
+          <svg width="60" height="40" viewBox="0 0 46 30">
+            <path d="M10 0 L34 0 L28 7.5 L4 7.5 Z" fill="#C8102E" />
+            <path d="M18 10.5 L42 10.5 L36 18 L12 18 Z" fill="#1E6FD9" />
+            <path d="M10 21 L34 21 L28 28.5 L4 28.5 Z" fill="#00843D" />
           </svg>
           <div
             style={{
-              color: "#edeff2",
+              color: "#0B3D91",
               fontSize: 26,
-              letterSpacing: 10,
+              fontWeight: 700,
+              letterSpacing: 8,
               textTransform: "uppercase",
             }}
           >
@@ -40,30 +42,31 @@ export default function OpengraphImage() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              color: "#edeff2",
-              fontSize: 88,
-              fontWeight: 700,
+              color: "#0B3D91",
+              fontSize: 96,
+              fontWeight: 800,
+              fontStyle: "italic",
               lineHeight: 1.02,
               textTransform: "uppercase",
               letterSpacing: -2,
             }}
           >
-            One stack.
+            Atulya Aerospace
           </div>
           <div
             style={{
-              color: "#ff8e1f",
-              fontSize: 88,
-              fontWeight: 700,
-              lineHeight: 1.02,
-              textTransform: "uppercase",
-              letterSpacing: -2,
+              color: "#C8102E",
+              fontSize: 52,
+              fontWeight: 800,
+              fontStyle: "italic",
+              lineHeight: 1.05,
+              marginTop: 16,
             }}
           >
-            Three missions.
+            Peerless. By Design.
           </div>
-          <div style={{ color: "#99a1ad", fontSize: 30, marginTop: 28 }}>
-            India&apos;s unified autonomous drone platform — defense, delivery, lifeline.
+          <div style={{ color: "#49535E", fontSize: 30, marginTop: 26 }}>
+            One Platform. Three National Missions.
           </div>
         </div>
 
@@ -71,14 +74,17 @@ export default function OpengraphImage() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            color: "#5d6572",
             fontSize: 20,
             letterSpacing: 4,
             textTransform: "uppercase",
           }}
         >
-          <div>Defense · Delhiver · MedFly</div>
-          <div>Designed in Bharat</div>
+          <div style={{ display: "flex", gap: 18 }}>
+            <span style={{ color: "#C8102E" }}>Defense</span>
+            <span style={{ color: "#1E6FD9" }}>Delhiver</span>
+            <span style={{ color: "#00843D" }}>MedFly</span>
+          </div>
+          <div style={{ color: "#49535E" }}>Built in India</div>
         </div>
       </div>
     ),

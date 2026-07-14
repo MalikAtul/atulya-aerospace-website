@@ -1,26 +1,20 @@
 import { Hero } from "@/components/home/Hero";
-import { Ticker } from "@/components/Ticker";
-import { StatBand } from "@/components/home/StatBand";
-import { Doctrine } from "@/components/home/Doctrine";
+import { Problem } from "@/components/home/Problem";
 import { Divisions } from "@/components/home/Divisions";
-import { Platform } from "@/components/home/Platform";
-import { Roadmap } from "@/components/home/Roadmap";
+import { Innovations } from "@/components/home/Innovations";
 import { Founder } from "@/components/home/Founder";
-import { Creed } from "@/components/home/Creed";
+import { Vision } from "@/components/home/Vision";
 import { Contact } from "@/components/home/Contact";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Ticker />
-      <StatBand />
-      <Doctrine />
+      <Problem />
       <Divisions />
-      <Platform />
-      <Roadmap />
+      <Innovations />
       <Founder />
-      <Creed />
+      <Vision />
       <Contact />
     </>
   );

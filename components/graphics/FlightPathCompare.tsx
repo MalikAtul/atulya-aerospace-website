@@ -80,7 +80,7 @@ export function FlightPathCompare({ className = "" }: { className?: string }) {
             y={y}
             width={w}
             height={h}
-            stroke="rgba(237,239,242,0.1)"
+            stroke="#dde1e6"
             strokeWidth="1"
           />
         ))}
@@ -88,18 +88,18 @@ export function FlightPathCompare({ className = "" }: { className?: string }) {
 
       {/* Hub */}
       <g data-fpc="fade-early">
-        <rect x={30} y={296} width={36} height={36} stroke="var(--color-chakra)" strokeWidth="1.3" fill="var(--color-void)" />
-        <path d="M48 304 L57 324 L48 319.5 L39 324 Z" fill="var(--color-chakra)" />
-        <text x={30} y={352} fill="rgba(237,239,242,0.55)" fontFamily="var(--font-mono)" fontSize="10" letterSpacing="1.5">
+        <rect x={30} y={296} width={36} height={36} stroke="var(--color-deliver)" strokeWidth="1.3" fill="var(--color-base)" />
+        <path d="M48 304 L57 324 L48 319.5 L39 324 Z" fill="var(--color-deliver)" />
+        <text x={30} y={352} fill="#49535e" fontFamily="var(--font-body)" fontSize="10" fontWeight="600" letterSpacing="1.5">
           DELHIVER HUB
         </text>
       </g>
 
       {/* Destination */}
       <g data-fpc="fade-early">
-        <circle cx={584} cy={78} r={17} stroke="rgba(237,239,242,0.6)" strokeWidth="1.2" fill="var(--color-void)" />
-        <path d="M577 80 L584 72 L591 80 M580 79 L580 86 L588 86 L588 79" stroke="rgba(237,239,242,0.7)" strokeWidth="1.1" fill="none" />
-        <text x={568} y={112} fill="rgba(237,239,242,0.55)" fontFamily="var(--font-mono)" fontSize="10" letterSpacing="1.5">
+        <circle cx={584} cy={78} r={17} stroke="#49535e" strokeWidth="1.2" fill="var(--color-base)" />
+        <path d="M577 80 L584 72 L591 80 M580 79 L580 86 L588 86 L588 79" stroke="#49535e" strokeWidth="1.1" fill="none" />
+        <text x={568} y={112} fill="#49535e" fontFamily="var(--font-body)" fontSize="10" fontWeight="600" letterSpacing="1.5">
           DOORSTEP
         </text>
       </g>
@@ -108,28 +108,28 @@ export function FlightPathCompare({ className = "" }: { className?: string }) {
       <g mask="url(#fpc-road-reveal)">
         <path
           d={ROAD_D}
-          stroke="rgba(237,239,242,0.38)"
+          stroke="#9ca3af"
           strokeWidth="1.6"
           strokeDasharray="7 5"
         />
       </g>
       <g data-fpc="fade-late">
-        <text x={252} y={326} fill="rgba(237,239,242,0.42)" fontFamily="var(--font-mono)" fontSize="10.5" letterSpacing="1.5">
+        <text x={252} y={326} fill="#49535e" fontFamily="var(--font-body)" fontSize="10.5" fontWeight="600" letterSpacing="1.5">
           GROUND ROUTE
         </text>
-        <text x={252} y={340} fill="rgba(237,239,242,0.3)" fontFamily="var(--font-mono)" fontSize="9.5" letterSpacing="1">
+        <text x={252} y={340} fill="#9ca3af" fontFamily="var(--font-body)" fontSize="9.5" fontWeight="600" letterSpacing="1">
           ROADS · SIGNALS · TRAFFIC
         </text>
       </g>
 
       {/* Flight line — the displacement */}
-      <path data-fpc="flight" d="M 62 300 L 570 88" stroke="var(--color-chakra)" strokeWidth="2" />
+      <path data-fpc="flight" d="M 62 300 L 570 88" stroke="var(--color-deliver)" strokeWidth="2" />
       <g data-fpc="fade-late">
-        <path d="M 330 186 L 342 198 L 326 202 Z" fill="var(--color-chakra)" transform="rotate(-8 334 194)" />
-        <text x={348} y={228} fill="var(--color-chakra)" fontFamily="var(--font-mono)" fontSize="10.5" letterSpacing="1.5">
+        <path d="M 330 186 L 342 198 L 326 202 Z" fill="var(--color-deliver)" transform="rotate(-8 334 194)" />
+        <text x={348} y={228} fill="var(--color-deliver)" fontFamily="var(--font-body)" fontSize="10.5" fontWeight="600" letterSpacing="1.5">
           DELHIVER FLIGHT
         </text>
-        <text x={348} y={242} fill="rgba(77,163,255,0.6)" fontFamily="var(--font-mono)" fontSize="9.5" letterSpacing="1">
+        <text x={348} y={242} fill="rgba(30,111,217,0.7)" fontFamily="var(--font-body)" fontSize="9.5" fontWeight="600" letterSpacing="1">
           STRAIGHT-LINE DISPLACEMENT
         </text>
       </g>

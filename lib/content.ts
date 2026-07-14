@@ -6,125 +6,46 @@
 export const SITE = {
   name: "Atulya Aerospace",
   shortName: "Atulya",
-  devanagari: "अतुल्य",
-  meaning: "Peerless. Incomparable.",
-  tagline: "India's unified autonomous drone platform.",
+  tagline: "Peerless. By Design.",
   description:
     "One indigenous autonomy stack flying three national missions — border defense, drone-native quick commerce, and emergency medical logistics. Built in India.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://atulya-aerospace.vercel.app",
   email: "atulyaaerospace@protonmail.com",
   founded: "2026",
+  location: "Gohana, Haryana, India",
 } as const;
 
 /* ── Hero ────────────────────────────────────────────────────────────── */
 
 export const HERO = {
-  kicker: "UNIFIED AUTONOMOUS DRONE PLATFORM · BHARAT",
-  statement:
-    "One core autonomy stack. Three national missions. Atulya builds the drones that watch India's borders, deliver its cities, and carry blood to its villages — all on the same indigenous platform.",
-  primaryCta: { label: "Request Briefing", href: "#contact" },
-  secondaryCta: { label: "Explore Divisions", href: "#divisions" },
+  title: ["ATULYA", "AEROSPACE"],
+  punch: "Peerless. By Design.",
+  sub: "One Platform. Three National Missions.",
 } as const;
 
-export const TICKER_ITEMS = [
-  "15,106 km land border",
-  "7,516 km coastline",
-  "~65% defense imports to erase",
-  "$23 bn drone market by 2030",
-  "sub-10-minute urban delivery",
-  "8-minute medicine runs",
-  "805 km/h strike platform",
-  "one indigenous stack",
-  "three national missions",
-] as const;
+/* ── Problem ─────────────────────────────────────────────────────────── */
 
-/* ── Headline numbers ────────────────────────────────────────────────── */
-
-export type Stat = {
-  value: number;
-  prefix?: string;
-  unit: string;
-  label: string;
-  note: string;
-  source: string;
-};
-
-export const STATS: readonly Stat[] = [
-  {
-    value: 15106,
-    unit: "KM",
-    label: "Land border under watch",
-    note: "Guarded today by aging, non-autonomous surveillance",
-    source: "Ministry of Home Affairs",
-  },
-  {
-    value: 7516,
-    unit: "KM",
-    label: "Coastline to patrol",
-    note: "Persistent maritime awareness, airborne",
-    source: "Ministry of Earth Sciences",
-  },
-  {
-    value: 65,
-    prefix: "~",
-    unit: "%",
-    label: "Of defense equipment imported",
-    note: "The number Atulya exists to drive to zero",
-    source: "Ministry of Defence",
-  },
-  {
-    value: 23,
-    prefix: "$",
-    unit: "BN",
-    label: "India's drone market by 2030",
-    note: "Projected economic impact of the national drone opportunity",
-    source: "Ministry of Civil Aviation",
-  },
-] as const;
-
-/* ── Doctrine — why we exist ─────────────────────────────────────────── */
-
-export const DOCTRINE = {
-  headline: ["India imports what it has", "every capability to build."],
-  sub: "Atulya Aerospace exists to change that.",
-  problems: [
-    {
-      index: "P-01",
-      title: "Long borders, aging eyes",
-      body: "15,106 kilometres of land border and 7,516 kilometres of coastline are monitored by systems that are neither persistent nor autonomous. Gaps in the watch are measured in hours. Incursions take minutes.",
-      answer: "Persistent HALE surveillance — indigenous, autonomous, always on station.",
-    },
-    {
-      index: "P-02",
-      title: "An import-dependent arsenal",
-      body: "Around 65% of India's defense equipment is bought abroad — with foreign spares, foreign timelines, and foreign permission baked into every deployment.",
-      answer: "A drone stack designed, built, and owned end-to-end in India.",
-    },
-    {
-      index: "P-03",
-      title: "Medicine that arrives late",
-      body: "Rural India loses lives daily because blood and emergency medicine travel by road from district hospitals to village health centres — a journey of hours for a need measured in minutes.",
-      answer: "An 8-minute drone corridor from civil hospital to primary health centre.",
-    },
-    {
-      index: "P-04",
-      title: "Commerce burning petrol",
-      body: "Urban quick commerce pays a rider and burns fuel to fight road geometry on every single order. The cost floor of ground delivery is structural — it cannot be optimised away.",
-      answer: "Autonomous hubs and straight-line flight that delete both costs entirely.",
-    },
+export const PROBLEM = {
+  stats: [
+    { value: 15106, unit: "km", label: "Land borders without autonomous coverage" },
+    { value: 7516, unit: "km", label: "Coastline India must protect" },
+    { value: 65, unit: "%", label: "Defense equipment currently imported" },
   ],
-  closer: ["Three problems. One platform.", "All indigenous. All built in India."],
+  line: "India has the talent. It has never had the platform.",
 } as const;
 
 /* ── Divisions ───────────────────────────────────────────────────────── */
 
+export type DivisionAccent = "defense" | "deliver" | "medfly";
+
 export type Division = {
   code: string;
   slug: string;
+  anchor: string;
   name: string;
   fullName: string;
   sector: string;
-  accent: "saffron" | "chakra" | "leaf";
+  accent: DivisionAccent;
   tagline: string;
   mandate: string;
   systems: string[];
@@ -136,10 +57,11 @@ export const DIVISIONS: Division[] = [
   {
     code: "01",
     slug: "/defense",
+    anchor: "division-defense",
     name: "Defense",
     fullName: "Atulya Defense",
-    sector: "B2G · ARMED FORCES & PARAMILITARY",
-    accent: "saffron",
+    sector: "B2G",
+    accent: "defense",
     tagline: "Autonomous airpower for the forces that hold the line.",
     mandate:
       "Surveillance, interception, and strike systems for the Indian Army, BSF, Indian Coast Guard, and CISF — engineered for the length of India's borders and the pace of modern drone warfare.",
@@ -157,10 +79,11 @@ export const DIVISIONS: Division[] = [
   {
     code: "02",
     slug: "/delhiver",
+    anchor: "division-delhiver",
     name: "Delhiver",
     fullName: "Atulya Delhiver",
-    sector: "B2C · QUICK COMMERCE",
-    accent: "chakra",
+    sector: "B2C",
+    accent: "deliver",
     tagline: "India's first drone-native quick commerce platform.",
     mandate:
       "Not selling drones to delivery companies — replacing them. Our own app, our own neighbourhood hubs, our own drones, flying prepaid orders in straight lines that no road network can match.",
@@ -176,10 +99,11 @@ export const DIVISIONS: Division[] = [
   {
     code: "03",
     slug: "/medfly",
+    anchor: "division-medfly",
     name: "MedFly",
     fullName: "Atulya MedFly",
-    sector: "B2B · B2G · PUBLIC HEALTH",
-    accent: "leaf",
+    sector: "B2B · B2G",
+    accent: "medfly",
     tagline: "Emergency medicine and blood, at the speed of flight.",
     mandate:
       "A drone lifeline from civil hospitals and blood banks to rural primary health centres — cutting transfer times from hours to minutes, in partnership with state health departments. Haryana first.",
@@ -194,82 +118,56 @@ export const DIVISIONS: Division[] = [
   },
 ];
 
-/* ── The unified stack ───────────────────────────────────────────────── */
-
-export const PLATFORM = {
-  headline: ["Every mission flies", "the same core."],
-  intro:
-    "A border patrol, a grocery run, and a blood transfer look different from the ground. From the flight controller, they are the same problem: autonomous flight, precise navigation, reliable delivery of a payload. Atulya builds that problem's answer once — and deploys it three ways.",
-  layers: [
-    {
-      label: "Autonomy Core",
-      value: "One flight intelligence",
-      detail:
-        "GPS-denied navigation, computer-vision landing, obstacle avoidance, and swarm coordination — a single software brain matured across every flight hour of all three divisions.",
-    },
-    {
-      label: "Airframes",
-      value: "Multirotor · Fixed-wing · Jet",
-      detail:
-        "Mission-specific bodies on a common avionics and power bus — from neighbourhood cargo tiltrotors to high-altitude long-endurance wings to turbine-driven strike platforms.",
-    },
-    {
-      label: "Propulsion",
-      value: "Electric to turbine",
-      detail:
-        "Battery-electric propulsion for city logistics and endurance surveillance; turbine power for the 805 km/h class. Indigenised progressively through Phase 3.",
-    },
-    {
-      label: "Comms & RF",
-      value: "Encrypted mesh + RF payloads",
-      detail:
-        "Encrypted command links and swarm mesh networking — and on the defense side, the RF sensing and broadband-interference payloads that make one interceptor lethal to an entire swarm.",
-    },
-    {
-      label: "Ground Network",
-      value: "Hubs · Pads · Tubes",
-      detail:
-        "Neighbourhood commerce hubs, hospital landing pads, and man-portable launch tubes — one logistics doctrine expressed in three kinds of ground truth.",
-    },
-    {
-      label: "Manufacturing",
-      value: "Indigenous by Phase 3",
-      detail:
-        "Airframe, propulsion, electronics, and AI brought fully in-country — the supply chain itself as a strategic asset.",
-    },
-  ],
-  flywheel: {
-    title: "The flywheel",
-    steps: [
-      {
-        label: "FLY",
-        text: "Delhiver and MedFly generate thousands of civilian flight hours and revenue.",
-      },
-      {
-        label: "LEARN",
-        text: "Every flight hardens the shared autonomy core — navigation, landing, failure recovery.",
-      },
-      {
-        label: "DEFEND",
-        text: "A combat-relevant, flight-proven stack reaches the armed forces years ahead of any lab-bound competitor.",
-      },
-    ],
-    closer:
-      "Commercial volume funds and trains the autonomy that guards the border. That is the structural advantage of one platform over three separate companies.",
-  },
+export const DIVISIONS_SECTION = {
+  title: "Three Missions. One Platform.",
 } as const;
 
-/* ── Mission & roadmap ───────────────────────────────────────────────── */
+/* ── Innovations ─────────────────────────────────────────────────────── */
 
-export const MISSION = {
-  statement: ["Make India the world's", "third", "autonomous drone superpower."],
-  clarifier: "After the United States and China. Before anyone else.",
+export const INNOVATIONS = {
+  title: "Built to Change the Math.",
+  items: [
+    {
+      title: "RF Swarm Interceptor",
+      body: "One tube-launched drone flies a single pass through an enemy swarm, severing every coordination link in the formation at once.",
+    },
+    {
+      title: "805 km/h Jet Strike Platform",
+      body: "A turbine-driven cranked-delta airframe targeting fighter-class speed — fast surveillance, kamikaze strike, surface defense.",
+    },
+    {
+      title: "Unified Autonomy Core",
+      body: "One flight intelligence — GPS-denied navigation, vision landing, swarm coordination — hardened by every civilian flight hour.",
+    },
+    {
+      title: "8-Minute Medical Corridor",
+      body: "Cold-chain drone corridors from civil hospitals to rural health centres, collapsing transfer times from hours to minutes.",
+    },
+  ],
+} as const;
+
+/* ── Founder ─────────────────────────────────────────────────────────── */
+
+export const FOUNDER = {
+  age: "15",
+  ageLabel: "Years Old",
+  name: "Atul Malik",
+  role: "Founder & CEO, Atulya Aerospace",
+  paragraph:
+    "Six years of self-directed research into aerospace, autonomous systems, and defense technology — all of it before any formal instruction in the field. Atulya is an extension of his own name, and the standard the company is held to: peerless, incomparable, what Indian engineering can be when it stops importing what it is fully capable of building.",
+  badges: ["Manak Inspire · CSIR", "TechnoXian · Club Wanjin"],
+} as const;
+
+/* ── Vision ──────────────────────────────────────────────────────────── */
+
+export const VISION = {
+  headline: "India's Third Autonomous Drone Superpower.",
+  sub: "After the US. After China. Before anyone else.",
   phases: [
     {
       phase: "Phase I",
       name: "Foundation",
       years: "Years 1–3",
-      status: "active",
       milestones: [
         "Launch Atulya Delhiver in Haryana",
         "Sign first MedFly state government agreement",
@@ -281,7 +179,6 @@ export const MISSION = {
       phase: "Phase II",
       name: "Expansion",
       years: "Years 3–6",
-      status: "ahead",
       milestones: [
         "Scale Delhiver to 50 cities",
         "Expand MedFly to 5 states",
@@ -293,7 +190,6 @@ export const MISSION = {
       phase: "Phase III",
       name: "Sovereignty",
       years: "Years 6–10",
-      status: "ahead",
       milestones: [
         "Full indigenous manufacturing — airframe, propulsion, electronics, AI",
         "List on Indian stock exchanges",
@@ -304,57 +200,18 @@ export const MISSION = {
   ],
 } as const;
 
-/* ── Founder ─────────────────────────────────────────────────────────── */
-
-export const FOUNDER = {
-  name: "Atul Malik",
-  role: "Founder",
-  dossier: [
-    { label: "Field", value: "Aerospace · Autonomous systems · Defense tech" },
-    { label: "Company", value: "Atulya Aerospace — Defense · Delhiver · MedFly" },
-  ],
-  story: [
-    "Since 2019 he has been taking apart the question of how machines and systems work — six years of self-directed research into aerospace, autonomous systems, and defense technology, all of it before any formal instruction in the field.",
-    "Atulya is an extension of his own name — and the standard the company is held to. Peerless. Incomparable. It is what he believes India's engineering can be when it stops importing what it is fully capable of building.",
-  ],
-  reframe:
-    "A founder this young is not a caveat — it is the point. The engineers who will make India a drone superpower by 2036 are in school today. One of them decided not to wait.",
-  recognitions: [
-    {
-      title: "Manak Inspire",
-      org: "CSIR — National Innovation Programme",
-      note: "National recognition under India's flagship student innovation programme.",
-    },
-    {
-      title: "Club Wanjin · TechnoXian",
-      org: "World Robotics Championship platform",
-      note: "Member at one of India's largest robotics competitions.",
-    },
-  ],
-  quote: "India imports what it has every capability to build. Atulya Aerospace exists to change that.",
-} as const;
-
 /* ── Contact ─────────────────────────────────────────────────────────── */
 
 export const CONTACT = {
-  headline: ["Request a", "briefing."],
-  intro:
-    "Atulya Aerospace briefs defense and government stakeholders, investors, state health departments, and prospective partners. Tell us who you are and what you need to evaluate — we respond within 48 hours.",
-  audiences: [
-    "Defense & Government",
-    "Investor / VC",
-    "State Health Department",
-    "Partner / Supplier",
-    "Media",
-  ],
-  rows: [
-    {
-      label: "Email",
-      value: "atulyaaerospace@protonmail.com",
-      href: "mailto:atulyaaerospace@protonmail.com",
-    },
-    { label: "Response", value: "Within 48 hours" },
-  ],
+  headline: "Built in India. For India. Beginning Now.",
+  email: SITE.email,
+  cta: "Get In Touch",
+} as const;
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+
+export const FOOTER = {
+  line: "Gohana, Haryana, India. Peerless. By Design.",
 } as const;
 
 /* ── Defense division page ───────────────────────────────────────────── */
@@ -551,38 +408,4 @@ export const MEDFLY_PAGE = {
     ],
     chips: ["HARYANA — FIRST STATE", "5 STATES — PHASE II", "NATIONAL — PHASE III"],
   },
-} as const;
-
-/* ── Footer ──────────────────────────────────────────────────────────── */
-
-export const FOOTER = {
-  blurb:
-    "India's unified autonomous drone platform. One indigenous stack — defense, delivery, and lifeline logistics.",
-  columns: [
-    {
-      title: "Divisions",
-      links: [
-        { label: "Atulya Defense", href: "/defense" },
-        { label: "Atulya Delhiver", href: "/delhiver" },
-        { label: "Atulya MedFly", href: "/medfly" },
-      ],
-    },
-    {
-      title: "Company",
-      links: [
-        { label: "The Doctrine", href: "/#doctrine" },
-        { label: "The Platform", href: "/#platform" },
-        { label: "The Mission", href: "/#mission" },
-        { label: "The Founder", href: "/#founder" },
-      ],
-    },
-    {
-      title: "Engage",
-      links: [
-        { label: "Request Briefing", href: "/#contact" },
-        { label: "atulyaaerospace@protonmail.com", href: "mailto:atulyaaerospace@protonmail.com" },
-      ],
-    },
-  ],
-  line: "Designed and engineered in India.",
 } as const;

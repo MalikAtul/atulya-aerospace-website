@@ -1,115 +1,79 @@
-"use client";
-
 import Link from "next/link";
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import { RadarScope } from "@/components/graphics/RadarScope";
-import { HudFrame } from "@/components/ui/HudFrame";
-import { HERO, SITE } from "@/lib/content";
+import { DIVISIONS, HERO } from "@/lib/content";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-const rise: Variants = {
-  hidden: { opacity: 0, y: 34 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE } },
+const BAR_COLOR: Record<string, string> = {
+  defense: "bg-defense",
+  deliver: "bg-deliver",
+  medfly: "bg-medfly",
 };
 
-const DIVISION_INDEX = [
-  { code: "01", name: "DEFENSE", href: "/defense", dot: "bg-saffron" },
-  { code: "02", name: "DELHIVER", href: "/delhiver", dot: "bg-chakra" },
-  { code: "03", name: "MEDFLY", href: "/medfly", dot: "bg-leaf" },
-] as const;
+/** Engineering crosshair system behind the wordmark — light gray, no glow. */
+function Crosshair() {
+  return (
+    <svg
+      viewBox="0 0 800 800"
+      aria-hidden
+      className="pointer-events-none absolute left-1/2 top-1/2 h-[135vmin] w-[135vmin] -translate-x-1/2 -translate-y-1/2"
+      fill="none"
+      stroke="#E8E8E8"
+    >
+      <circle cx="400" cy="400" r="300" />
+      <circle cx="400" cy="400" r="216" strokeDasharray="4 8" />
+      <line x1="400" y1="0" x2="400" y2="310" />
+      <line x1="400" y1="490" x2="400" y2="800" />
+      <line x1="0" y1="400" x2="310" y2="400" />
+      <line x1="490" y1="400" x2="800" y2="400" />
+      {[0, 90, 180, 270].map((deg) => (
+        <g key={deg} transform={`rotate(${deg} 400 400)`}>
+          <line x1="400" y1="100" x2="400" y2="118" strokeWidth="2" />
+        </g>
+      ))}
+    </svg>
+  );
+}
 
 export function Hero() {
-  const reduce = useReducedMotion();
-
   return (
-    <section className="relative overflow-hidden bg-blueprint" aria-label="Introduction">
-      <div aria-hidden className="absolute inset-0 glow-saffron" />
-      <div
-        aria-hidden
-        className="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-line lg:block"
-      />
+    <section id="hero" data-hero className="relative overflow-hidden bg-base bg-blueprint" aria-label="Introduction">
+      <Crosshair />
 
-      <div className="container-x relative grid min-h-svh items-center gap-14 pb-16 pt-36 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8 lg:pb-20">
-        <motion.div
-          initial={reduce ? undefined : "hidden"}
-          animate="show"
-          variants={{ show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } }}
-        >
-          <motion.p variants={rise} className="label-sm flex flex-wrap items-center gap-x-4 gap-y-2 text-dim">
-            <span className="text-saffron">[ EST. {SITE.founded} ]</span>
-            <span>{HERO.kicker}</span>
-          </motion.p>
+      <div className="container-x relative flex min-h-svh flex-col pt-[72px]">
+        <div className="flex flex-1 flex-col items-center justify-center py-16 text-center">
+          <h1 className="display text-[clamp(3.2rem,11vw,8.5rem)] text-sovereign animate-rise">
+            <span className="block">{HERO.title[0]}</span>
+            <span className="block">{HERO.title[1]}</span>
+          </h1>
 
-          <motion.h1
-            variants={rise}
-            className="display mt-8 text-[clamp(3.4rem,11.5vw,9.2rem)]"
+          <p
+            className="display mt-6 text-[clamp(1.35rem,3.4vw,2.4rem)] text-strike animate-rise"
+            style={{ animationDelay: "0.15s" }}
           >
-            <span className="block">Atulya</span>
-            <span className="block text-outline">Aerospace</span>
-          </motion.h1>
+            {HERO.punch}
+          </p>
 
-          <motion.p variants={rise} className="mt-7 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <span
-              className="text-xl font-semibold text-saffron"
-              style={{ fontFamily: "var(--font-devanagari)" }}
-              lang="hi"
-            >
-              {SITE.devanagari}
-            </span>
-            <span className="label-sm text-dim">{SITE.meaning}</span>
-          </motion.p>
+          <p
+            className="mt-6 text-[1rem] text-slate md:text-[1.1rem] animate-rise"
+            style={{ animationDelay: "0.3s" }}
+          >
+            {HERO.sub}
+          </p>
+        </div>
 
-          <motion.p variants={rise} className="mt-7 max-w-xl text-[1.02rem] leading-relaxed text-dim">
-            {HERO.statement}
-          </motion.p>
-
-          <motion.div variants={rise} className="mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              href={HERO.primaryCta.href}
-              className="label btn-sheen group inline-flex items-center gap-3 bg-saffron px-7 py-4 text-void transition-colors duration-300 hover:bg-saffron-bright"
-            >
-              {HERO.primaryCta.label}
-              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
-            <Link
-              href={HERO.secondaryCta.href}
-              className="label inline-flex items-center gap-3 border border-line-strong px-7 py-4 text-ink transition-colors duration-300 hover:border-saffron hover:text-saffron"
-            >
-              {HERO.secondaryCta.label}
-            </Link>
-          </motion.div>
-
-          <motion.div variants={rise} className="mt-14 flex flex-wrap gap-x-10 gap-y-4">
-            {DIVISION_INDEX.map((d) => (
-              <Link key={d.code} href={d.href} className="group flex items-center gap-3">
-                <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${d.dot}`} />
-                <span className="label-sm text-faint transition-colors duration-300 group-hover:text-ink">
-                  <span className="mr-2 text-dim">{d.code}</span>
-                  {d.name}
-                </span>
-              </Link>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={reduce ? undefined : { opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: EASE, delay: 0.35 }}
-          className="relative mx-auto w-full max-w-[560px]"
+        <nav
+          className="flex items-start justify-center gap-6 pb-12 sm:gap-10 animate-rise"
+          style={{ animationDelay: "0.45s" }}
+          aria-label="Divisions"
         >
-          <HudFrame accent="rgba(255,142,31,0.55)" size={18} className="p-5 sm:p-8">
-            <RadarScope />
-          </HudFrame>
-          <div className="mt-4 flex items-center justify-between">
-            <p className="label-sm text-faint">ONE STACK · THREE MISSIONS</p>
-            <p className="label-sm text-faint">
-              <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-leaf align-middle" aria-hidden />
-              SYSTEMS NOMINAL
-            </p>
-          </div>
-        </motion.div>
+          {DIVISIONS.map((d) => (
+            <Link key={d.code} href={`/#${d.anchor}`} className="group flex flex-col items-center gap-3">
+              <span
+                aria-hidden
+                className={`h-1.5 w-16 transition-transform duration-300 group-hover:scale-x-110 sm:w-24 ${BAR_COLOR[d.accent]}`}
+              />
+              <span className="label-sm text-slate">{d.name}</span>
+            </Link>
+          ))}
+        </nav>
       </div>
     </section>
   );
