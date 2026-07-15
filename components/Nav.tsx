@@ -9,6 +9,7 @@ const LINKS = [
   { label: "Defense", href: "/defense", color: "text-defense" },
   { label: "Delhiver", href: "/delhiver", color: "text-deliver" },
   { label: "MedFly", href: "/medfly", color: "text-medfly" },
+  { label: "Programs", href: "/programs", color: "text-sovereign" },
   { label: "Contact", href: "/#contact", color: "text-sovereign" },
 ] as const;
 

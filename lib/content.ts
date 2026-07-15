@@ -364,6 +364,73 @@ export const DELHIVER_PAGE = {
   },
 } as const;
 
+/* ── Programs page ───────────────────────────────────────────────────── */
+
+export type ProgramStatus = "IN DEVELOPMENT" | "PROTOTYPE STAGE" | "RESEARCH";
+
+export const PROGRAMS_PAGE = {
+  meta: {
+    title: "Important Programs — Atulya Defense Platform Briefs",
+    description:
+      "The platforms Atulya Defense is building for India's autonomous security infrastructure — unified command and control, nano surveillance, counter-UAS interception, swarm coordination, and HALE ISR.",
+  },
+  title: "Important Programs",
+  subtitle:
+    "The platforms Atulya Defense is building for India's autonomous security infrastructure.",
+  programs: [
+    {
+      code: "AA-DEF-001",
+      name: "AKASH COMMAND LAYER",
+      status: "RESEARCH" as ProgramStatus,
+      mission:
+        "Unified AI command and control platform for autonomous defense operations across all Atulya systems.",
+      description:
+        "A software-first platform that ingests real-time data from heterogeneous sensor networks — surveillance drones, radar arrays, thermal cameras — and outputs a single unified operational picture. AI-powered threat classification, autonomous tracking, and coordinated multi-asset response, all managed from one command interface. Designed to integrate with existing Indian defense infrastructure without ripping and replacing it.",
+      color: "#0B3D91",
+    },
+    {
+      code: "AA-DEF-002",
+      name: "DRISHTI NANO",
+      status: "PROTOTYPE STAGE" as ProgramStatus,
+      mission:
+        "Sub-250g autonomous surveillance drone for persistent border and perimeter monitoring.",
+      description:
+        "A nano-class VTOL fixed-wing tiltrotor platform operating at the edge of India's Drone Rules 2021 nano category. Onboard AI processes sensor feeds in real time, detecting and classifying threats without streaming data to a ground station. Feeds classified intelligence directly into the Akash Command Layer. Operable in coordinated fleets, covering sectors impossible for single large platforms to monitor continuously.",
+      color: "#1E6FD9",
+    },
+    {
+      code: "AA-DEF-003",
+      name: "KAVACH",
+      status: "IN DEVELOPMENT" as ProgramStatus,
+      mission:
+        "Autonomous counter-drone detection and interception system for India's borders and critical installations.",
+      description:
+        "A two-layer counter-UAS architecture. The detection layer uses AI to identify, classify, and track hostile UAVs from radar and optical feeds, flagging threats before they breach the perimeter. The interception layer deploys a tube-launched autonomous interceptor that uses computer vision guidance to physically neutralize the threat — a kinetic response requiring no human intervention at the moment of engagement.",
+      color: "#C8102E",
+    },
+    {
+      code: "AA-DEF-004",
+      name: "AGNI SWARM",
+      status: "RESEARCH" as ProgramStatus,
+      mission:
+        "Decentralized AI coordination software for autonomous drone fleet operations.",
+      description:
+        "A multi-agent coordination platform enabling a fleet of heterogeneous drones to operate as a single coherent unit without individual human control of each asset. Drones share sensor data, redistribute tasks autonomously, and respond to threats collectively. A single operator issues a mission objective — the swarm executes it. Applicable to border surveillance, area denial, coordinated reconnaissance, and rapid-response scenarios.",
+      color: "#00843D",
+    },
+    {
+      code: "AA-DEF-005",
+      name: "VAYURAKSHAK HALE",
+      status: "RESEARCH" as ProgramStatus,
+      mission:
+        "High-Altitude Long-Endurance indigenous surveillance UAV for persistent border monitoring.",
+      description:
+        "A long-endurance fixed-wing platform designed to patrol 200+ km border sectors continuously, operating at altitudes that ground-based infiltration cannot evade. Feeds AI-processed intelligence into the Akash Command Layer, giving border commanders a persistent autonomous eye across terrain that is impossible to staff adequately with ground forces. Developed to address India's continued dependence on imported MALE-class platforms for strategic surveillance.",
+      color: "#0B3D91",
+    },
+  ],
+} as const;
+
 /* ── MedFly division page ────────────────────────────────────────────── */
 
 export const MEDFLY_PAGE = {
